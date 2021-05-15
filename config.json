@@ -14,36 +14,35 @@
         "list": [
             {
                 "activity": {
-                    "name": "1",
+                    "name": "with command blocks",
                     "type": "PLAYING"
                     },
                 "status": "online"
             },
             {
                 "activity": {
-                    "name": "2",
+                    "name": "Discord's changes",
                     "type": "WATCHING"
                     },
                 "status": "dnd"
             },
             {
                 "activity": {
-                    "name": "3",
+                    "name": "music with fantomitechno",
                     "type": "LISTENING"
                     },
                 "status": "idle"
             },
             {
                 "activity": {
-                    "name": "4",
+                    "name": "an WereWolf game ft NewGlace",
                     "type": "STREAMING",
-                    "url": "https://twitch.tv/username",
-                    "#comment": "'url' need to be a twitch channel url"
+                    "url": "https://twitch.tv/fantomitechno"
                     },
                 "status": "online"
             }
         ],
-        "time": 10000
+        "time": 1000000
     },
     "owners": [
         "563749920683720709"
@@ -57,7 +56,7 @@
     },
     "perm": "8",
     "support": {
-        "server": "SEVER INVITATION"
+        "server": "http://discord.gg/x9BMZ6z"
     },
     "emojis": {
         "succes": "✅",
