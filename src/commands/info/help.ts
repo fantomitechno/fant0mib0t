@@ -1,5 +1,7 @@
 import { Command, CommandHandler, getThing, BetterEmbed, Tag } from 'advanced-command-handler'
 import { Message } from 'discord.js'
+import { type } from 'os'
+import { help } from "../../config.json"
 
 
 export default new Command(
@@ -13,6 +15,7 @@ export default new Command(
 	},
 	async (handler: typeof CommandHandler, message: Message, args: string[]) => {
 		const embed = new BetterEmbed()
+		const categories = help.category
 
         if (args[0]) {
             const command = await getThing('command', args[0].toLowerCase().normalize())
@@ -21,7 +24,7 @@ export default new Command(
 
 				embed.title = `Help on command : ${command.name}`
 				embed.description = `<> = Require, [] = Optional
-				Category : **${command.category}**
+				Category : **${categories.findIndex(c => c[1] === command.category)}**
 				Available in private messages : **${command.tags.includes(Tag.guildOnly) ? "no" : "yes"}**
 				${text}`
 
@@ -64,11 +67,20 @@ export default new Command(
 			}
         } else {
 			embed.title = 'Here is the list of commands:'
-			embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command\n\n${handler.commands
-				.map(c => `**${c.name}** : ${c.description}`)
-				.sort()
-				.join('\n\n')
-			}`
+			embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command`
+			let commands: Command[] = []
+			handler.commands.map(command => {
+				const missingPermissions = command.getMissingPermissions(message)
+				const missingTags = command.getMissingTags(message)
+				if (missingPermissions.client.length === 0 && missingPermissions.user.length === 0 && missingTags.length === 0) commands.push(command)
+			})
+			for (const category of categories) {
+				embed.fields.push({
+					name: category[0],
+					value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
+					inline: false
+				})
+			}
 		}
 		return message.channel.send({embed: embed})
 	}
