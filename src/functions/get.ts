@@ -53,18 +53,24 @@ export const getUser = (message: Message, string: string) => {
     let members: string[] = []
     let indexes: string[] = []
 
-    cache?.forEach(member => {
+    for (const member of (cache as any)) {
         members.push(member.displayName)
         indexes.push(member.id)
-        members.push(member.user.username)
+        members.push(member.user?.username)
         indexes.push(member.id)
-    })
+    }
+    //cache?.forEach(member => {
+    //    members.push(member.displayName)
+    //    indexes.push(member.id)
+    //    members.push(member.user.username)
+    //    indexes.push(member.id)
+    //})
 
     const match = findBestMatch(string, members)
     if (match.bestMatch.rating > 0) {
         const displayName = match.bestMatch.target
 
-        return cache?.get(indexes[members.indexOf(displayName)])        
+        return cache?.get(indexes[members.indexOf(displayName)])
     } return null
 }
 

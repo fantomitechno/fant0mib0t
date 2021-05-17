@@ -25,7 +25,7 @@ export default new Command(
     usage: 'userinfo <member>'
 	},
 	async (handler: typeof CommandHandler, message: Message, args: string[]) => {
-        const member: GuildMember | null | undefined = args[0] ? message.member : getUser(message, args[0])
+        const member: GuildMember | null | undefined = !args[0] ? message.member : getUser(message, args[0])
         if (!member) return message.channel.send("Error cannot find a match!")
 
         const activity: any = member?.user.presence.activities[0]
@@ -117,9 +117,7 @@ export default new Command(
         ctx.font = '25px Whitney Medium'
         ctx.fillStyle = '#a2a5a7'
         ctx.fillText(moment(member.user.createdAt).format("dddd Do MMMM YYYY, HH:mm:ss"), 25, 275)
-        ctx.fillText(`Since ${((moment.duration(Date.now() - Number(member.user.createdAt))) as any).format("Y __, M __, D __, hh__ mm__ ss__")}`, 25, 305)
         ctx.fillText(moment(member.joinedAt).format("dddd Do MMMM YYYY, HH:mm:ss"), 25, 400)
-        ctx.fillText(`Since ${((moment.duration(Date.now() - Number(member.joinedAt))) as any).format("Y __, M __, D __, hh__ mm__ ss__")}`, 25, 430)
         ctx.fillText(`${position}/${message.guild?.memberCount}`, 25, 525)
 
         if (member.roles.cache.size > 1) {
@@ -136,8 +134,8 @@ export default new Command(
           ctx.font = '25px Whitney Medium'
           ctx.fillStyle = member.displayHexColor
           if (member.displayHexColor === "#000000") ctx.fillStyle = '#7289da'
-          //drawEmoji(ctx, `@${highestRole.name}`, canvas.width / 2 + 25, 525, 355)
-          ctx.fillText(`@${highestRole.name}`, canvas.width / 2 + 25, 525, 355)
+          drawEmoji(ctx, `@${highestRole.name}`, canvas.width / 2 + 25, 525, 25, 25)
+          //ctx.fillText(`@${highestRole.name}`, canvas.width / 2 + 25, 525, 355)
           ctx.globalAlpha = 0.2
           ctx.fillRect(canvas.width / 2 + 20, 505, (ctx.measureText(`@${highestRole.name}`).width > 365) ? 365 : ctx.measureText(`@${highestRole.name}`).width + 10, 25)
           ctx.globalAlpha = 1
