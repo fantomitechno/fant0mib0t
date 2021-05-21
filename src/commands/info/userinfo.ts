@@ -1,19 +1,12 @@
 import { Command, CommandHandler, Tag } from 'advanced-command-handler'
-import { GuildMember, Message, MessageAttachment, MessageEmbed, Role } from 'discord.js'
+import { GuildMember, MessageAttachment, MessageEmbed, Role } from 'discord.js'
 import { getUser } from '../../functions/get'
 import { drawCircle, drawEmoji, getImgCache, rectRounded } from '../../functions/canvas'
 import { textLimiter } from '../../functions/string'
 import { convert } from 'twemoji'
 import moment from 'moment'
 import Canvas from 'canvas'
-
-const status = {
-    online: "Online",
-    idle: "Idle",
-    dnd: "Do Not Disturb",
-    offline: "Offline/Invisible",
-    invisible: "Offline/Invisible"
-}
+import { Context } from '../../class/Context'
 
 export default new Command(
 	{
@@ -24,9 +17,9 @@ export default new Command(
 		cooldown: 5,
     usage: 'userinfo <member>'
 	},
-	async (handler: typeof CommandHandler, message: Message, args: string[]) => {
-        const member: GuildMember | null | undefined = !args[0] ? message.member : getUser(message, args[0])
-        if (!member) return message.channel.send("Error cannot find a match!")
+	async (handler: typeof CommandHandler, context: Context) => {
+        const member= !context.args[0] ? context.member : getUser(context.message, context.args[0])
+        if (!member) return context.message.channel.send("Error cannot find a match!")
 
         const activity: any = member?.user.presence.activities[0]
 
@@ -34,7 +27,7 @@ export default new Command(
 
         const ctx = canvas.getContext('2d')
 
-        const sortedMembers: any = message.guild?.members?.cache.array().sort((a: any, b: any) => a.joinedTimestamp - b.joinedTimestamp )
+        const sortedMembers: any = context.message.guild?.members?.cache.array().sort((a: any, b: any) => a.joinedTimestamp - b.joinedTimestamp )
 
         const position: any = sortedMembers?.indexOf(member) + 1
 
@@ -118,7 +111,7 @@ export default new Command(
         ctx.fillStyle = '#a2a5a7'
         ctx.fillText(moment(member.user.createdAt).format("dddd Do MMMM YYYY, HH:mm:ss"), 25, 275)
         ctx.fillText(moment(member.joinedAt).format("dddd Do MMMM YYYY, HH:mm:ss"), 25, 400)
-        ctx.fillText(`${position}/${message.guild?.memberCount}`, 25, 525)
+        ctx.fillText(`${position}/${context.message.guild?.memberCount}`, 25, 525)
 
         if (member.roles.cache.size > 1) {
           let roles: Role[] = [];
@@ -275,7 +268,6 @@ export default new Command(
       
                   ctx.font = '30px Whitney Medium'
                   ctx.fillText(textLimiter(activity.state, 41), 50, 695)
-                  ctx.fillText(textLimiter(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 50), 194, 730)
                 } else { //if all
                   ctx.font = '35px Whitney Medium'
                   ctx.fillStyle = 'white'
@@ -284,17 +276,15 @@ export default new Command(
                   ctx.font = '30px Whitney Medium'
                   ctx.fillText(activity.details, 50, 695)
                   ctx.fillText(activity.state, 50, 730)
-                  ctx.fillText(textLimiter(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 50), 50, 765)
                 }
               }
             } else { //if no richpresence
       
               ctx.font = '40px Whitney Medium'
               ctx.fillStyle = 'white'
-              ctx.fillText(textLimiter(activity.name, 44), 50, 680)
+              ctx.fillText(textLimiter(activity.name, 40), 50, 680)
       
               ctx.font = '35px Whitney Medium'
-              ctx.fillText(textLimiter(`Since ${(moment.duration(Date.now() - Number(activity.timestamps.start)) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 50), 50, 745)
       
             }
       
@@ -307,9 +297,9 @@ export default new Command(
           .attachFiles(attachment)
           .setImage('attachment://userinfo.png')
           .setTimestamp()
-          .setFooter(`Requested by ${message.author.tag}`)
+          .setFooter(`Requested by ${context.author.tag}`)
 
-        message.channel.send({ embed})
+        context.send(embed)
 
 	}
 );

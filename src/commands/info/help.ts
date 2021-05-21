@@ -1,6 +1,5 @@
 import { Command, CommandHandler, getThing, BetterEmbed, Tag } from 'advanced-command-handler'
-import { Message } from 'discord.js'
-import { type } from 'os'
+import { Context } from '../../class/Context'
 import { help } from "../../config.json"
 
 
@@ -13,12 +12,12 @@ export default new Command(
 		cooldown: 5,
         usage: 'help [command]'
 	},
-	async (handler: typeof CommandHandler, message: Message, args: string[]) => {
+	async (handler: typeof CommandHandler, ctx: Context) => {
 		const embed = new BetterEmbed()
 		const categories = help.category
 
-        if (args[0]) {
-            const command = await getThing('command', args[0].toLowerCase().normalize())
+        if (ctx.args[0]) {
+            const command = await getThing('command', ctx.args[0].toLowerCase().normalize())
 			if (command) {
 				const text = `${command.tags.includes(Tag.ownerOnly) ? "**Only available to the owner(s).**\n" : ""}${command.tags.includes(Tag.guildOwnerOnly) ? "**Only available to the guild owner.**\n" : ""}${command.tags.includes(Tag.nsfw) ? "**Only available in a nsfw channel." : ""}`
 
@@ -27,12 +26,13 @@ export default new Command(
 				Category : **${categories.findIndex(c => c[1] === command.category)}**
 				Available in private messages : **${command.tags.includes(Tag.guildOnly) ? "no" : "yes"}**
 				${text}`
-
-				embed.fields.push({
-					name: "Description :",
-					value: command.description,
-					inline: false
-				})
+				if (command.description) {
+					embed.fields.push({
+						name: "Description :",
+						value: command.description,
+						inline: false
+					})
+				}
 
 				if (command.usage) {
 					embed.fields.push({
@@ -64,14 +64,30 @@ export default new Command(
 						inline: false
 					})
 				}
+			} else {
+				embed.title = 'Here is the list of commands:'
+				embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command`
+				let commands: Command[] = []
+				handler.commands.map(command => {
+					const missingPermissions = command.getMissingPermissions(ctx.message)
+					const missingTags = command.getMissingTags(ctx.message)
+					if (missingPermissions.client.length === 0 && missingPermissions.user.length === 0 && missingTags.length === 0) commands.push(command)
+				})
+				for (const category of categories) {
+					embed.fields.push({
+						name: category[0],
+						value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
+						inline: false
+					})
+				}
 			}
         } else {
 			embed.title = 'Here is the list of commands:'
 			embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command`
 			let commands: Command[] = []
 			handler.commands.map(command => {
-				const missingPermissions = command.getMissingPermissions(message)
-				const missingTags = command.getMissingTags(message)
+				const missingPermissions = command.getMissingPermissions(ctx.message)
+				const missingTags = command.getMissingTags(ctx.message)
 				if (missingPermissions.client.length === 0 && missingPermissions.user.length === 0 && missingTags.length === 0) commands.push(command)
 			})
 			for (const category of categories) {
@@ -82,6 +98,6 @@ export default new Command(
 				})
 			}
 		}
-		return message.channel.send({embed: embed})
+		return ctx.send({embed: embed})
 	}
 )
