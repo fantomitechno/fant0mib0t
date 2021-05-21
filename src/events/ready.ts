@@ -1,6 +1,7 @@
 import { CommandHandler, Event, Logger } from 'advanced-command-handler'
 import { ClientUser, PresenceData } from 'discord.js'
-import { presence } from '../config.json'
+import { presence, database } from '../config.json'
+import { query } from '../functions/db';
 
 export default new Event(
     {
@@ -20,9 +21,6 @@ export default new Event(
         )
     
         log()
-        setInterval(() => {
-            log();
-        }, 20 * 60 * 1000)
     
         const user = handler?.client?.user
     
@@ -39,5 +37,11 @@ export default new Event(
             },
             presence.time)
         }
+
+        setInterval(() => {
+            query("SELECT *", () => {
+                log()
+            })
+        }, database.refresh_time)
     }
 )

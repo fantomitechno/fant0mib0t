@@ -53,18 +53,18 @@ export const getUser = (message: Message, string: string) => {
     let members: string[] = []
     let indexes: string[] = []
 
-    for (const member of (cache as any)) {
-        members.push(member.displayName)
-        indexes.push(member.id)
-        members.push(member.user?.username)
-        indexes.push(member.id)
-    }
-    //cache?.forEach(member => {
+    //for (const member of (cache as any)) {
     //    members.push(member.displayName)
     //    indexes.push(member.id)
-    //    members.push(member.user.username)
+    //    members.push(member.user?.username)
     //    indexes.push(member.id)
-    //})
+    //}
+    cache?.forEach(member => {
+        members.push(member.displayName)
+        indexes.push(member.id)
+        members.push(member.user.username)
+        indexes.push(member.id)
+    })
 
     const match = findBestMatch(string, members)
     if (match.bestMatch.rating > 0) {
@@ -88,6 +88,8 @@ export const getUserFromMention = (message: Message, mention: string) => {
 
         }
 
+        return message.guild?.members.cache.get(mention)
+    } else {
         return message.guild?.members.cache.get(mention)
     }
 }
