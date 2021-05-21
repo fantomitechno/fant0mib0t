@@ -39,12 +39,11 @@ export default new Command(
 		})
 		member.ban({reason: ctx.args.slice(1).join(' ') + " | Opered by " + ctx.member?.displayName}).then(async m => {
 			let created = await create("casier", ["id", m.id], ["guilds, reasons, mods, type", `"${ctx.guild?.id}", "${reason}", "${ctx.author.id}, "ban"`])
-			console.log(created)
 			if (!created) {
 				query(`SELECT * FROM casier WHERE id = ${m.id}`, (err: MysqlError|null, res: any) => {
 					if (err) throw err
 					res = res[0]
-					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "ban" WHERE id = "${m.id}"`, (err: MysqlError|null, test: any) => {
+					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/ban"}" WHERE id = "${m.id}"`, (err: MysqlError|null, test: any) => {
 						if (err) throw err
 					})
 				})

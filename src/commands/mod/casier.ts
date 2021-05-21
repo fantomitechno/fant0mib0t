@@ -47,8 +47,7 @@ export default new Command(
                 title: "Case for " + member?.user.tag,
                 description: "The case cover all the action taken with the bot, if you manualy ban someone it will not be registred"
             })
-            if (!ctx.guild) return console.log("error")
-            console.log(casier[ctx.guild.id].ban.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`))
+            if (!ctx.guild) return
             let text = casier[ctx.guild?.id].ban.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`).join('\n')
             if (text.length === 0) text = "None"
             embed.fields.push({
