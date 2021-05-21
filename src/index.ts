@@ -6,10 +6,10 @@ process.chdir('out')
 CommandHandler.create({
     prefixes: [config.prefix],
     commandsDir: 'commands',
-    eventsDir: 'events'
+    eventsDir: 'events',
+    owners: ['563749920683720709']
 })
 .setDefaultCommands()
-.setDefaultEvents()
 
 CommandHandler.launch({
     token: config.token,
