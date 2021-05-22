@@ -1,10 +1,7 @@
-import { Command, CommandHandler, BetterEmbed, Tag, getThing } from 'advanced-command-handler'
+import { Command, CommandHandler, Tag } from 'advanced-command-handler'
 import { Message } from 'discord.js'
-import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
-import { create, query } from '../../functions/db'
-import { getUser, getUserFromMention } from '../../functions/get'
-import { sendToModLogs } from '../../functions/logging'
+import { getUserFromMention } from '../../functions/get'
 
 
 export default new Command(
@@ -20,7 +17,7 @@ export default new Command(
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
 		if (!ctx.args[0]) return ctx.send("You have to enter an user")
-		const member = getUser(ctx.message, ctx.args[0])
+		const member = getUserFromMention(ctx.message, ctx.args[0])
 		if (!member) return ctx.send('Invalid user')
         if (!ctx.args[1]) return ctx.send("You have to enter a message")
 		const message = new Message(ctx.message.client, {
