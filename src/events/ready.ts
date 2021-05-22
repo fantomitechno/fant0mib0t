@@ -1,5 +1,4 @@
 import { CommandHandler, Event, Logger } from 'advanced-command-handler'
-import { ClientUser, PresenceData } from 'discord.js'
 import { presence, database } from '../config.json'
 import { query } from '../functions/db';
 
