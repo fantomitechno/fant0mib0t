@@ -298,6 +298,7 @@ export default new Command(
           .setImage('attachment://userinfo.png')
           .setTimestamp()
           .setFooter(`Requested by ${context.author.tag}`)
+          .setColor(member.displayColor)
 
         context.send(embed)
 

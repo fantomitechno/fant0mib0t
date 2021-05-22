@@ -1,4 +1,4 @@
-import { CommandHandler, Event, Logger } from 'advanced-command-handler'
+import { CommandHandler, Event } from 'advanced-command-handler'
 import { GuildMember } from 'discord.js'
 import { MysqlError } from 'mysql'
 import { query } from '../functions/db'

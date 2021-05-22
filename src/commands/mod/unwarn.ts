@@ -75,7 +75,8 @@ export default new Command(
 
 		    const embedBanner = new BetterEmbed({
 		    	title: "Case update",
-		    	description: `${member} have been succefuly unwarned on ${ctx.guild?.name}`
+		    	description: `${member} have been succefuly unwarned on ${ctx.guild?.name}`,
+                color: "GREEN"
 		    })
 			query(`UPDATE casier SET guilds = "${guilds.join("/")}", reasons = "${reasons.join("/")}",  mods = "${mods.join("/")}", type = "${types.join("/")}" WHERE id = "${member.id}"`, (err: MysqlError|null, _: any) => {
 				if (err) return console.log(err)

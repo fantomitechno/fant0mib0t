@@ -1,11 +1,11 @@
 import { Command, CommandHandler } from 'advanced-command-handler';
-import { Context } from 'vm';
+import { Context } from '../../class/Context';
 
 
 export default new Command(
 	{
 		name: 'ping',
-		tags: ['guildOnly'],
+		description: "Get the bot latency"
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
 		const botPing = handler.client?.ws.ping

@@ -32,11 +32,13 @@ export default new Command(
 		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
 		const embedBanned = new BetterEmbed({
 			title: "You were tempmuted on "+ ctx.guild?.name ?? "None, wait what ?",
-			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`\nTime: "+ ctx.args[1]
+			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`\nTime: "+ ctx.args[1],
+			color: "RED"
 		})
 		const embedBanner = new BetterEmbed({
 			title: "Case update",
-			description: `${member} have been succefuly tempmuted on ${ctx.guild?.name}`
+			description: `${member} have been succefuly tempmuted on ${ctx.guild?.name}`,
+			color: "GREEN"
 		})
 		member?.send(embedBanned).catch(() => {
 			embedBanner.footer = {

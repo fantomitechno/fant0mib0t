@@ -26,7 +26,8 @@ export default new Command(
                 ctx.delete()
                 const embedBanner = new BetterEmbed({
                     title: "Case update",
-                    description: `${userBanned?.user.username} have been succefuly unbanned from ${ctx.guild?.name}`
+                    description: `${userBanned?.user.username} have been succefuly unbanned from ${ctx.guild?.name}`,
+                    color: "GREEN"
                 })
                 ctx.send(embedBanner)
                 sendToModLogs(ctx.guild, `<a:banhammer:844881353841442826> ${userBanned?.user} by ${ctx.member}`, "unban")

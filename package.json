@@ -32,10 +32,12 @@
     "twemoji": "^13.0.1",
     "string-similarity": "^4.0.4",
     "twemoji-parser": "^13.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/mysql": "^2.15.18",
+    "@types/node-fetch": "^2.5.10",
     "@types/twemoji": "^12.1.1",
     "@types/twemoji-parser": "^12.1.0",
     "typescript": "^4.1.3"

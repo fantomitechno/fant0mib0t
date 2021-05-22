@@ -9,7 +9,6 @@ CommandHandler.create({
     eventsDir: 'events',
     owners: ['563749920683720709', '528340380064677891']
 })
-.setDefaultCommands()
 
 CommandHandler.launch({
     token: config.token,

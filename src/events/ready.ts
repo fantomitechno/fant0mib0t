@@ -21,8 +21,6 @@ export default new Event(
             } users.`
         )
     
-        log()
-    
         const user = handler?.client?.user
     
     
@@ -48,7 +46,7 @@ export default new Event(
 
         setInterval( () => {
             Logger.event(
-                `Starting temps loop`
+                `Starting temps loop..`
             )
             query("SELECT * FROM temp", (err: MysqlError, result: any) => {
                 for (const res of result) {
@@ -88,5 +86,29 @@ export default new Event(
                 `Temps loop ended`
             )
         }, 60000)
+
+        const autoRoleFetch = async() => {
+            Logger.event(`Fetching autorole..`)
+            query("SELECT * FROM autorole",(err: MysqlError, results: any) => {
+                if (!results.length) return
+                results.map((r: any) => {
+                    let server = handler.client?.guilds.cache.get(r.server_id)
+                    if (server) {
+                        let channel: any = server.channels.cache.get(r.channel_id)
+                        if (channel?.isText) {
+                            channel.messages.fetch(r.message_id).then((msg: any) => {
+                                msg
+                            }).catch((err: any) => console.log(err))
+                        }
+                    }
+                })
+            })
+            Logger.event(`Autorole are fetched`)
+        }
+
+        setInterval(() => autoRoleFetch, 36000000)
+
+        autoRoleFetch()
+        log()
     }
 )

@@ -27,11 +27,13 @@ export default new Command(
 		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
 		const embedBanned = new BetterEmbed({
 			title: "You were muted on "+ ctx.guild?.name ?? "None, wait what ?",
-			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`"
+			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`",
+			color: "RED"
 		})
 		const embedBanner = new BetterEmbed({
 			title: "Case update",
-			description: `${member} have been succefuly muted from ${ctx.guild?.name}`
+			description: `${member} have been succefuly muted from ${ctx.guild?.name}`,
+			color: "GREEN"
 		})
 		member?.send(embedBanned).catch(() => {
 			embedBanner.footer = {

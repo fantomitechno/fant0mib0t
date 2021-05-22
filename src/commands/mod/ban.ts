@@ -14,8 +14,8 @@ export default new Command(
 		tags: [Tag.guildOnly],
 		cooldown: 5,
         usage: 'ban [member] <reason>',
-        clientPermissions: ['BAN_MEMBERS'],
-        userPermissions: ['BAN_MEMBERS', 'KICK_MEMBERS']
+        clientPermissions: ["BAN_MEMBERS"],
+        userPermissions: ['BAN_MEMBERS', "KICK_MEMBERS"]
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
         const member = getUserFromMention(ctx.message, ctx.args[0])
@@ -27,11 +27,13 @@ export default new Command(
 		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
 		const embedBanned = new BetterEmbed({
 			title: "You were banned from "+ ctx.guild?.name ?? "None, wait what ?",
-			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`"
+			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`",
+			color: "RED"
 		})
 		const embedBanner = new BetterEmbed({
 			title: "Case update",
-			description: `${member} have been succefuly banned from ${ctx.guild?.name}`
+			description: `${member} have been succefuly banned from ${ctx.guild?.name}`,
+			color: "GREEN"
 		})
 		member?.send(embedBanned).catch(() => {
 			embedBanner.footer = {

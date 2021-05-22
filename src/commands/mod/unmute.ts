@@ -24,7 +24,8 @@ export default new Command(
 		if (!member.roles.cache.has(mutedRole)) return ctx.send('This user isn\'t muted')
 		const embedBanner = new BetterEmbed({
 			title: "Case update",
-			description: `${member} have been succefuly unmuted from ${ctx.guild?.name}`
+			description: `${member} have been succefuly unmuted from ${ctx.guild?.name}`,
+			color: "GREEN"
 		})
 		
 		query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${ctx.guild?.id}"`, (err: MysqlError|null, res: any) => {

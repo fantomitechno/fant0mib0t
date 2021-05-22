@@ -13,7 +13,9 @@ export default new Command(
         usage: 'help [command]'
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
-		const embed = new BetterEmbed()
+		const embed = new BetterEmbed({
+			color: ctx.me?.displayColor
+		})
 		const categories = help.category
 
         if (ctx.args[0]) {
@@ -83,7 +85,7 @@ export default new Command(
 			}
         } else {
 			embed.title = 'Here is the list of commands:'
-			embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command`
+			embed.description = `Type \`${handler.prefixes[0]}help <command>\` to get information on a command`
 			let commands: Command[] = []
 			handler.commands.map(command => {
 				const missingPermissions = command.getMissingPermissions(ctx.message)
