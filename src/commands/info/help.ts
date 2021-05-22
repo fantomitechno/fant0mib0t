@@ -91,11 +91,14 @@ export default new Command(
 				if (missingPermissions.client.length === 0 && missingPermissions.user.length === 0 && missingTags.length === 0) commands.push(command)
 			})
 			for (const category of categories) {
-				embed.fields.push({
-					name: category[0],
-					value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
-					inline: false
-				})
+				let text = `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``
+				if (text.length !== 2) {
+					embed.fields.push({
+						name: category[0],
+						value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
+						inline: false
+					})
+				}
 			}
 		}
 		return ctx.send({embed: embed})
