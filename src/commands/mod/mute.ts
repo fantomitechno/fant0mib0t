@@ -20,7 +20,7 @@ export default new Command(
 	async (handler: typeof CommandHandler, ctx: Context) => {
         const member = getUserFromMention(ctx.message, ctx.args[0])
         if (!member) return ctx.send('The member you provided is not available. Have you gived a valide member ?')
-        if (!member.kickable) return ctx.send('I can\'t mute this member')
+		if (!member.user.bot && member.hasPermission('MANAGE_ROLES') && !ctx.member?.hasPermission('ADMINISTRATOR')) return ctx.send('Sorry but you tried to mute a moderator not bot')
         let mutedRole = ctx.guild?.roles.cache.find(r => r.name.includes("mute") && !r.managed)?.id ?? "0"
 		let reason = ctx.args.slice(1).join(' ')
 		if (!reason.length) reason = "Non specified"

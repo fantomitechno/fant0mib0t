@@ -17,7 +17,7 @@ export default new Command(
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
         if (!ctx.args[0]) return ctx.send("You have to provide an user")
-        if (isNaN(Number(ctx.args[0])) || (ctx.args[0].length >= 17 && ctx.args[0].length <= 19)) return ctx.send('You have to provide an ID')
+        if (isNaN(Number(ctx.args[0])) || !(ctx.args[0].length >= 17 && ctx.args[0].length <= 19)) return ctx.send('You have to provide an ID')
         
         ctx.guild?.fetchBans().then(bans=> {
             let userBanned = bans.find(b => b.user.id == ctx.args[0])

@@ -21,7 +21,7 @@ export default new Command(
         const member = getUserFromMention(ctx.message, ctx.args[0])
         if (!member) return ctx.send('The member you provided is not available. Have you gived a valide member ?')
         if (!member.bannable) return ctx.send('I can\'t ban this member')
-		if (!member.user.bot && member.hasPermission('BAN_MEMBERS') && !ctx.member?.hasPermission('ADMINISTRATOR')) return ctx.send('Sorry but you tried to kick a moderator not bot')
+		if (!member.user.bot && member.hasPermission('BAN_MEMBERS') && !ctx.member?.hasPermission('ADMINISTRATOR')) return ctx.send('Sorry but you tried to ban a moderator not bot')
 		let reason = ctx.args.slice(1).join(' ')
 		if (!reason.length) reason = "Non specified"
 		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')

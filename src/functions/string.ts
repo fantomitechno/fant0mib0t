@@ -5,3 +5,41 @@ export const textLimiter = (string: string, limit: number, limiter: string = '..
 export const countUpperCase = (string: string) => {
     return (string.match(/[A-Z]/g) || []).length
 }
+
+export const convertTime = async(time: string) => {
+    let time2 = 0
+    if (time) {
+        if (time.split("s").length > 2) return "error time"
+        if (time.split("m").length > 2) return "error time"
+        if (time.split("h").length > 2) return "error time"
+        if (time.split("d").length > 2) return "error time"
+        if (time.split("w").length > 2) return "error time"
+        if (time.split("y").length > 2) return "error time"
+        time = time.replace("s", "*1000*")
+        time = time.replace("m", "*60000*")
+        time = time.replace("h", "*3600000*")
+        time = time.replace("d", "*86400000*")
+        time = time.replace("w", "*604800000*")
+        time = time.replace("y", "*31536000000*")
+        let num = (time.split("*").length) - 1
+        for (let i = 0; num > i; i += 2) {
+            if (!isNaN(Number(time.split("*")[i]))) {
+                if (!isNaN(Number(time.split("*")[i + 1]))) {
+                    time2 += (parseInt(time.split("*")[i]) * (Number(time.split("*")[i + 1])))
+                }
+            }
+        }
+        let y = (time2 / 31536000000);
+        y = (y.toString().includes("e-") ? 0 : y)
+        let d = ((time2 - (y * 31536000000)) / 86400000);
+        d = (d.toString().includes("e-") ? 0 : d)
+        let h = ((time2 - (y * 31536000000) - (d * 86400000)) / 3600000);
+        h = (h.toString().includes("e-") ? 0 : h)
+        let m = ((time2 - (y * 31536000000) - (d * 86400000) - (h * 3600000)) / 60000);
+        m = (m.toString().includes("e-") ? 0 : m)
+        let s = ((time2 - (y * 31536000000) - (d * 86400000) - (h * 3600000) - (m * 60000)) / 1000);
+        s = (s.toString().includes("e-") ? 0 : s)
+        if (isNaN(time2)) return "error"
+        return time2
+    } return "error"
+}

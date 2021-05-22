@@ -1,6 +1,8 @@
 import { CommandHandler, Event, Logger } from 'advanced-command-handler'
+import { MysqlError } from 'mysql';
 import { presence, database } from '../config.json'
 import { query } from '../functions/db';
+import { sendToModLogs } from '../functions/logging';
 
 export default new Event(
     {
@@ -42,5 +44,49 @@ export default new Event(
                 log()
             })
         }, database.refresh_time)
+
+
+        setInterval( () => {
+            Logger.event(
+                `Starting temps loop`
+            )
+            query("SELECT * FROM temp", (err: MysqlError, result: any) => {
+                for (const res of result) {
+                    const timePassed = Date.now() - res.date
+                    if (timePassed >= res.time) {
+                        const guild = handler.client?.guilds.cache.get(res.guild)
+                        if (guild) {
+                            if (res.type === "ban") {
+                                guild.fetchBans().then(bans => {
+                                    let userBanned = bans.find(b => b.user.id === res.id)
+                                    if (!userBanned) return
+                                    guild.members.unban(userBanned.user).then(() => {
+                                        sendToModLogs(guild, `<a:banhammer:844881353841442826> ${userBanned?.user}`, "unban (auto)")
+                                    })
+                                })
+                            } else if (res.type === "mute") {
+                                let member = guild.members.cache.get(res.id)
+                                if (!member) return
+                                let mutedRole = guild?.roles.cache.find(r => r.name.includes("mute") && !r.managed)?.id ?? "0"
+                                if (!member.roles.cache.has(mutedRole)) return
+                                query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${guild?.id}"`, (err: MysqlError|null, res: any) => {
+                                    if (err) return console.log(err)
+                                    if (res.length) {
+                                        query(`DELETE FROM mute WHERE id = "${member?.id}" AND guild = "${guild?.id}"`)
+                                    }
+                                })
+                                member.roles.remove(mutedRole, "Automatic").then(async m => {
+                                    sendToModLogs(guild, `<a:banhammer:844881353841442826> ${member}`, "unmute (auto)")
+                                })
+                            }
+                        }
+                        query(`DELETE FROM temp WHERE id = "${res.id}" AND guild = "${res.guild}" AND type = "${res.type}" AND time = "${res.time}" AND date = "${res.date}"`)
+                    }
+                }
+            })
+            Logger.event(
+                `Temps loop ended`
+            )
+        }, 60000)
     }
 )
