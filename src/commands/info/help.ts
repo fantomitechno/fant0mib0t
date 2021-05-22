@@ -23,7 +23,7 @@ export default new Command(
 
 				embed.title = `Help on command : ${command.name}`
 				embed.description = `<> = Require, [] = Optional
-				Category : **${categories.findIndex(c => c[1] === command.category)}**
+				Category : **${categories[categories.findIndex(c => c[1] === command.category)][0] ?? `\`${command.category}\``}**
 				Available in private messages : **${command.tags.includes(Tag.guildOnly) ? "no" : "yes"}**
 				${text}`
 				if (command.description) {
