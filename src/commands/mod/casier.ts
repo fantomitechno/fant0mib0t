@@ -22,7 +22,7 @@ export default new Command(
         if (!member) member = ctx.member
         const casier: any = {}
 		query(`SELECT * FROM casier WHERE id = "${member?.id}"`, (err: MysqlError|null, res: any) => {
-            if (err) throw err
+            if (err) return console.log(err)
             if (!res.length) return ctx.send(`${member?.user.tag} has no case`)
             res = res[0]
             const guilds = res.guilds.split('/')
@@ -48,28 +48,28 @@ export default new Command(
                 description: "The case cover all the action taken with the bot, if you manualy ban someone it will not be registred"
             })
             if (!ctx.guild) return
-            let text = casier[ctx.guild?.id].ban.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`).join('\n')
+            let text = casier[ctx.guild?.id].ban.map((b: { reason: any; mod: any }, i: number) => `[${i}] for \`${b.reason}\` by <@${b.mod}>`).join('\n')
             if (text.length === 0) text = "None"
             embed.fields.push({
                 name: "Bans",
                 value: text,
                 inline: true
             })
-            text = casier[ctx.guild?.id].kick.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`).join('\n')
+            text = casier[ctx.guild?.id].kick.map((b: { reason: any; mod: any }, i: number) => `[${i}] for \`${b.reason}\` by <@${b.mod}>`).join('\n')
             if (text.length === 0) text = "None"
             embed.fields.push({
                 name: "Kicks",
                 value: text,
                 inline: true
             })
-            text = casier[ctx.guild?.id].mute.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`).join('\n')
+            text = casier[ctx.guild?.id].mute.map((b: { reason: any; mod: any }, i: number) => `[${i}] for \`${b.reason}\` by <@${b.mod}>`).join('\n')
             if (text.length === 0) text = "None"
             embed.fields.push({
                 name: "Mutes",
                 value: text,
                 inline: true
             })
-            text = casier[ctx.guild?.id].warn.map((b: { reason: any; mod: any }) => `for \`${b.reason}\` by <@${b.mod}>`).join('\n')
+            text = casier[ctx.guild?.id].warn.map((b: { reason: any; mod: any }, i: number) => `[${i}] for \`${b.reason}\` by <@${b.mod}>`).join('\n')
             if (text.length === 0) text = "None"
             embed.fields.push({
                 name: "Warns",

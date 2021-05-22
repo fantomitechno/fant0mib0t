@@ -13,7 +13,7 @@ export default new Command(
 		aliases: ['b'],
 		tags: [Tag.guildOnly],
 		cooldown: 5,
-        usage: 'ban [member]',
+        usage: 'ban [member] <reason>',
         clientPermissions: ['BAN_MEMBERS'],
         userPermissions: ['BAN_MEMBERS', 'KICK_MEMBERS']
 	},
@@ -21,6 +21,7 @@ export default new Command(
         const member = getUserFromMention(ctx.message, ctx.args[0])
         if (!member) return ctx.send('The member you provided is not available. Have you gived a valide member ?')
         if (!member.bannable) return ctx.send('I can\'t ban this member')
+		if (!member.user.bot && member.hasPermission('BAN_MEMBERS') && !ctx.member?.hasPermission('ADMINISTRATOR')) return ctx.send('Sorry but you tried to kick a moderator not bot')
 		let reason = ctx.args.slice(1).join(' ')
 		if (!reason.length) reason = "Non specified"
 		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
@@ -40,17 +41,17 @@ export default new Command(
 		member.ban({reason: ctx.args.slice(1).join(' ') + " | Opered by " + ctx.member?.displayName}).then(async m => {
 			let created = await create("casier", ["id", m.id], ["guilds, reasons, mods, type", `"${ctx.guild?.id}", "${reason}", "${ctx.author.id}, "ban"`])
 			if (!created) {
-				query(`SELECT * FROM casier WHERE id = ${m.id}`, (err: MysqlError|null, res: any) => {
-					if (err) throw err
+				query(`SELECT * FROM casier WHERE id = "${m.id}"`, (err: MysqlError|null, res: any) => {
+					if (err) return console.log(err)
 					res = res[0]
 					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/ban"}" WHERE id = "${m.id}"`, (err: MysqlError|null, test: any) => {
-						if (err) throw err
+						if (err) return console.log(err)
 					})
 				})
 			}
 			ctx.delete()
 			ctx.send(embedBanner)
-			sendToModLogs(ctx.message, `<a:banhammer:844881353841442826> ${member} by ${ctx.member} | reason : ${reason}`, "ban")
+			sendToModLogs(ctx.guild, `<a:banhammer:844881353841442826> ${member} by ${ctx.member} | reason : ${reason}`, "ban")
 		})
     }
 )
