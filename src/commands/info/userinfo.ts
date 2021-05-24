@@ -282,7 +282,7 @@ export default new Command(
       
               ctx.font = '40px Whitney Medium'
               ctx.fillStyle = 'white'
-              ctx.fillText(textLimiter(activity.name, 15), 50, 680)
+              ctx.fillText(textLimiter(activity.name, 30), 50, 680)
       
               ctx.font = '35px Whitney Medium'
       

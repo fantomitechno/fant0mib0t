@@ -86,8 +86,9 @@ export default new Command(
         } else {
 			embed.title = 'Here is the list of commands:'
 			embed.description = `Type \`${handler.prefixes[0]}help <command>\` to get information on a command`
-   embed.footer = {
-text : `Commands that require permissions that you don't have are hidden` }
+   			embed.footer = {
+				text : `Commands that require permissions that you don't have are hidden` 
+			}
 			let commands: Command[] = []
 			handler.commands.map(command => {
 				const missingPermissions = command.getMissingPermissions(ctx.message)
