@@ -12,7 +12,6 @@ export default new Command(
 		description: 'Let speak with the soft banhammer',
 		aliases: ['k'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'kick [member] <reason>',
         clientPermissions: ['KICK_MEMBERS'],
         userPermissions: [ 'KICK_MEMBERS']

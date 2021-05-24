@@ -12,7 +12,6 @@ export default new Command(
 		description: 'Let speak with the banhammer',
 		aliases: ['b'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'ban [member] <reason>',
         clientPermissions: ["BAN_MEMBERS"],
         userPermissions: ['BAN_MEMBERS', "KICK_MEMBERS"]

@@ -10,7 +10,6 @@ export default new Command(
 		description: 'Evaluate some code',
 		aliases: ['e'],
 		tags: [Tag.ownerOnly],
-		cooldown: 5,
         usage: 'eval [code]'
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {

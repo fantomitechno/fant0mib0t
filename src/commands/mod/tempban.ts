@@ -13,7 +13,6 @@ export default new Command(
 		description: 'Let speak with the banhammer\'o clock',
 		aliases: ['tb'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'ban [member] [time] <reason>',
         clientPermissions: ['BAN_MEMBERS'],
         userPermissions: ['BAN_MEMBERS', 'KICK_MEMBERS']

@@ -12,7 +12,7 @@ export default new Command(
 		description: 'Let speak witout the sparadra',
 		aliases: ['um', "umu"],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
+		cooldown: 3,
         usage: 'unmute [member]',
         clientPermissions: ['MANAGE_ROLES'],
         userPermissions: ['MANAGE_MESSAGES']

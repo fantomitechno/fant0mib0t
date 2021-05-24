@@ -10,7 +10,7 @@ export default new Command(
 		description: 'Let speak without the banhammer',
 		aliases: ['ub'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
+		cooldown: 3,
         usage: 'unban [memberID]',
         clientPermissions: ['BAN_MEMBERS'],
         userPermissions: ['BAN_MEMBERS', 'KICK_MEMBERS']

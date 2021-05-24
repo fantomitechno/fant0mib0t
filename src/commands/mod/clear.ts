@@ -9,10 +9,9 @@ export default new Command(
 		description: 'Hop this never existed',
 		aliases: ['c'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
-        usage: 'clear [number]',
-        clientPermissions: ['MANAGE_MESSAGES'],
-        userPermissions: ['MANAGE_MESSAGES']
+    usage: 'clear [number]',
+    clientPermissions: ['MANAGE_MESSAGES'],
+    userPermissions: ['MANAGE_MESSAGES']
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
         if (!ctx.args[0] || isNaN(Number(ctx.args[0]))) return ctx.send("You have to provide a number")

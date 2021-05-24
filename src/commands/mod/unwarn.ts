@@ -12,7 +12,7 @@ export default new Command(
 		description: 'Let speak without the very soft banhammer',
 		aliases: ['uw','uwu'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
+		cooldown: 3,
         usage: 'unwarn [member] [id]',
         clientPermissions: [],
         userPermissions: ["MANAGE_MESSAGES"]

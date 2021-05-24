@@ -33,9 +33,7 @@
     "node-fetch": "^2.6.1",
     "string-similarity": "^4.0.4",
     "twemoji": "^13.0.1",
-    "twemoji-parser": "^13.0.0",
-    "mysql": "^2.18.1",
-    "node-fetch": "^2.6.1"
+    "twemoji-parser": "^13.0.0"
   },
   "devDependencies": {
     "@types/mysql": "^2.15.18",

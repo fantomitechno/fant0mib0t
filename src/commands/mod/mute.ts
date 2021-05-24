@@ -12,7 +12,6 @@ export default new Command(
 		description: 'Let speak with the sparadra',
 		aliases: ['m'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'mute [member] <reason>',
         clientPermissions: ['MANAGE_ROLES'],
         userPermissions: ['MANAGE_MESSAGES']

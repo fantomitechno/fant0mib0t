@@ -13,7 +13,6 @@ export default new Command(
 		description: 'Let speak with the sparadra\'o clock',
 		aliases: ['tm'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'tempmute [member] [time] <reason>',
         clientPermissions: ['MANAGE_ROLES'],
         userPermissions: ['MANAGE_MESSAGES']

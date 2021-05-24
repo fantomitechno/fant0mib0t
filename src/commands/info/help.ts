@@ -9,7 +9,7 @@ export default new Command(
 		description: 'Get the help of the bot',
 		aliases: ['h'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
+		cooldown: 2,
         usage: 'help [command]'
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {

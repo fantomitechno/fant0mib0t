@@ -12,7 +12,6 @@ export default new Command(
 		description: 'Let speak with the very soft banhammer',
 		aliases: ['w'],
 		tags: [Tag.guildOnly],
-		cooldown: 5,
         usage: 'warn [member] <reason>',
         userPermissions: ["MANAGE_MESSAGES"]
 	},
