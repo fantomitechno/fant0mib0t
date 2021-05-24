@@ -93,6 +93,10 @@ export class Context {
         }
     }
 
+    public bulkDelete = (n: number) => {
+        return (this.channel as TextChannel|NewsChannel).bulkDelete(n)
+    }
+
     public react = (emoji: EmojiIdentifierResolvable) => {
         return this.message.react(emoji)
     }

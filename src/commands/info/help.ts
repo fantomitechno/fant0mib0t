@@ -13,7 +13,9 @@ export default new Command(
         usage: 'help [command]'
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
-		const embed = new BetterEmbed()
+		const embed = new BetterEmbed({
+			color: ctx.me?.displayColor
+		})
 		const categories = help.category
 
         if (ctx.args[0]) {
@@ -23,7 +25,7 @@ export default new Command(
 
 				embed.title = `Help on command : ${command.name}`
 				embed.description = `<> = Require, [] = Optional
-				Category : **${categories.findIndex(c => c[1] === command.category)}**
+				Category : **${categories[categories.findIndex(c => c[1] === command.category)][0] ?? `\`${command.category}\``}**
 				Available in private messages : **${command.tags.includes(Tag.guildOnly) ? "no" : "yes"}**
 				${text}`
 				if (command.description) {
@@ -83,7 +85,9 @@ export default new Command(
 			}
         } else {
 			embed.title = 'Here is the list of commands:'
-			embed.description = `Type ${handler.prefixes[0]}help <command> to get information on a command`
+			embed.description = `Type \`${handler.prefixes[0]}help <command>\` to get information on a command`
+   embed.footer = {
+text : `Commands that require permissions that you don't have are hidden` }
 			let commands: Command[] = []
 			handler.commands.map(command => {
 				const missingPermissions = command.getMissingPermissions(ctx.message)
@@ -91,11 +95,14 @@ export default new Command(
 				if (missingPermissions.client.length === 0 && missingPermissions.user.length === 0 && missingTags.length === 0) commands.push(command)
 			})
 			for (const category of categories) {
-				embed.fields.push({
-					name: category[0],
-					value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
-					inline: false
-				})
+				let text = `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``
+				if (text.length !== 2) {
+					embed.fields.push({
+						name: category[0],
+						value: `\`${commands.filter(c => c.category === category[1]).map(c => c.name).sort().join('`, `')}\``,
+						inline: false
+					})
+				}
 			}
 		}
 		return ctx.send({embed: embed})

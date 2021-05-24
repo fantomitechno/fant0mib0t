@@ -73,8 +73,8 @@ export default new Command(
         ctx.font = '50px Whitney Medium'
         ctx.fillStyle = "white"
         if(member.nickname) {
-          await drawEmoji(ctx, `${memberTag[0]} as ${member.nickname}`, 202, 80, 50, 50)
-        } else await drawEmoji(ctx, memberTag[0], 202, 80, 50, 50)
+          await drawEmoji(ctx, textLimiter(`${memberTag[0]} as ${member.nickname}`,20), 202, 80, 50, 50)
+        } else await drawEmoji(ctx, textLimiter(memberTag[0], 20), 202, 80, 50, 50)
         ctx.fillStyle = 'gray'
         ctx.fillText(`#${memberTag[1]}`, 202, 147)
 
@@ -127,7 +127,7 @@ export default new Command(
           ctx.font = '25px Whitney Medium'
           ctx.fillStyle = member.displayHexColor
           if (member.displayHexColor === "#000000") ctx.fillStyle = '#7289da'
-          drawEmoji(ctx, `@${highestRole.name}`, canvas.width / 2 + 25, 525, 25, 25)
+          drawEmoji(ctx, `@${highestRole.name}`, canvas.width / 2 + 25, 525, 20, 20)
           //ctx.fillText(`@${highestRole.name}`, canvas.width / 2 + 25, 525, 355)
           ctx.globalAlpha = 0.2
           ctx.fillRect(canvas.width / 2 + 20, 505, (ctx.measureText(`@${highestRole.name}`).width > 365) ? 365 : ctx.measureText(`@${highestRole.name}`).width + 10, 25)
@@ -165,9 +165,9 @@ export default new Command(
               let link = url ? url : `https://twemoji.maxcdn.com/v/13.0.1/72x72/${emojiCode}.png`
       
               ctx.drawImage(await getImgCache(link), 25, 550, 72, 72)
-              if (activity.state) await drawEmoji(ctx, textLimiter(activity.state, 49), 125,600, 30 ,30)
+              if (activity.state) await drawEmoji(ctx, textLimiter(activity.state, 40), 125,600, 30 ,30)
       
-            } else await drawEmoji(ctx, textLimiter(activity.state, 63), 25,600, 30 ,30)
+            } else await drawEmoji(ctx, textLimiter(activity.state, 50), 25,600, 30 ,30)
       
           } else if (activity.type === "STREAMING") {
             ctx.fillStyle = "#54338d"
@@ -177,7 +177,7 @@ export default new Command(
             ctx.fillStyle = 'white'
             ctx.fillText("Streaming on Twitch", 25, 603)
       
-            ctx.drawImage(await Canvas.loadImage(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${activity.assets.largeImage.replace("twitch:", "")}-1280x720.jpg`), 25, 625, 320, 180)
+           if (!member.user.bot)  ctx.drawImage(await Canvas.loadImage(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${activity.assets.largeImage.replace("twitch:", "")}-1280x720.jpg`), 25, 625, 320, 180)
       
       
             ctx.font = '35px Whitney Medium'
@@ -231,7 +231,7 @@ export default new Command(
       
                   ctx.font = '30px Whitney Medium'
                   ctx.fillText(textLimiter(activity.state, 41), 194, 695)
-                  ctx.fillText(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 194, 730)
+                  //ctx.fillText(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 194, 730)
                 } else { //if all
                   ctx.font = '35px Whitney Medium'
                   ctx.fillStyle = 'white'
@@ -240,7 +240,7 @@ export default new Command(
                   ctx.font = '30px Whitney Medium'
                   ctx.fillText(textLimiter(activity.details, 49), 194, 695)
                   ctx.fillText(textLimiter(activity.state, 41), 194, 730)
-                  ctx.fillText(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 194, 765)
+                  //ctx.fillText(`Since ${(moment.duration(Date.now() - activity.timestamps.start) as any).format("Y __, M __, D __, hh __ mm __ ss __")}`, 194, 765)
                 }
       
               } else {//if no image
@@ -282,7 +282,7 @@ export default new Command(
       
               ctx.font = '40px Whitney Medium'
               ctx.fillStyle = 'white'
-              ctx.fillText(textLimiter(activity.name, 40), 50, 680)
+              ctx.fillText(textLimiter(activity.name, 15), 50, 680)
       
               ctx.font = '35px Whitney Medium'
       
@@ -298,6 +298,7 @@ export default new Command(
           .setImage('attachment://userinfo.png')
           .setTimestamp()
           .setFooter(`Requested by ${context.author.tag}`)
+          .setColor(member.displayColor)
 
         context.send(embed)
 

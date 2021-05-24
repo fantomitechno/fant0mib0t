@@ -75,13 +75,11 @@ export const getUser = (message: Message, string: string) => {
 }
 
 export const getUserFromMention = (message: Message, mention: string) => {
-
     if (!mention) return
 
     if (mention.startsWith('<@') && mention.endsWith('>')) {
 
-        mention = mention.slice(3, -1)
-
+        mention = mention.slice(2, -1)
         if (mention.startsWith('!')) {
 
             mention = mention.slice(1)

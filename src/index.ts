@@ -7,9 +7,8 @@ CommandHandler.create({
     prefixes: [config.prefix],
     commandsDir: 'commands',
     eventsDir: 'events',
-    owners: ['563749920683720709']
+    owners: ['563749920683720709', '528340380064677891']
 })
-.setDefaultCommands()
 
 CommandHandler.launch({
     token: config.token,
@@ -33,7 +32,7 @@ CommandHandler.launch({
                 "DIRECT_MESSAGE_TYPING"
             ] 
         },
-        restTimeOffset: 0,
+        restTimeOffset: 100,
         disableMentions: 'everyone',
         messageCacheMaxSize: 100
     }

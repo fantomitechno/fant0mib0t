@@ -5,11 +5,11 @@ let db = mysql.createConnection(database)
 
 db.connect()
 
-export const query = (query: any, fonction: Function) => {
+export const query = (query: any, fonction?: Function) => {
     db.query(query, fonction)
 }
 
-export const create: any = async (where: string, value: Array<string>, info: Array<string>) => {
+export const create: any = async (where: string, value: string[], info: string[]) => {
     db.query(`SELECT * FROM ${where} WHERE ${value[0]} = ${value[1]}`, (err, results) => {
         if (err) throw err
         if (results.length === 0) {
@@ -17,5 +17,4 @@ export const create: any = async (where: string, value: Array<string>, info: Arr
             return true
         } else return false
     })
-    
 }
