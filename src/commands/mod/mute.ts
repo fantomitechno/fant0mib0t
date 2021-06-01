@@ -1,7 +1,7 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
-import { create, query } from '../../functions/db'
+import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
 
@@ -40,17 +40,16 @@ export default new Command(
 			}
 		})
 		member.roles.add(mutedRole, ctx.args.slice(1).join(' ') + " | Opered by " + ctx.member?.displayName).then(async m => {
-			let created = await create("casier", ["id", m.id], ["guilds, reasons, mods, type", `"${ctx.guild?.id}", "${reason}", "${ctx.author.id}, "mute"`])
-			if (!created) {
-				query(`SELECT * FROM casier WHERE id = "${m.id}"`, (err: MysqlError|null, res: any) => {
-					if (err) return console.log(err)
+			query(`SELECT * FROM casier WHERE id = "${m.id}"`, (err: MysqlError|null, res: any) => {
+				if (err) return console.log(err)
+				if (!res.length) {
+					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${reason}", "${ctx.author.id}")`)
+				} else {
 					res = res[0]
-					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/mute"}" WHERE id = "${m.id}"`, (err: MysqlError|null, _: any) => {
-						if (err) return console.log(err)
-					})
-				})
-			}
-            query(`SELECT * FROM mute WHERE id = "${m.id}" AND guild = "${ctx.guild?.id}"`, (err: MysqlError|null, res: any) => {
+					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/mute"}" WHERE id = "${m.id}"`)
+				}
+			})
+			query(`SELECT * FROM mute WHERE id = "${m.id}" AND guild = "${ctx.guild?.id}"`, (err: MysqlError|null, res: any) => {
                 if (err) return console.log(err)
                 if (!res.length) {
                     query(`INSERT INTO mute (id, guild) VALUES (${m.id}, ${ctx.guild?.id})`)

@@ -1,0 +1,22 @@
+{
+    "latest" : {
+        "name": "Release V1.0",
+        "id": "v1.0",
+        "description": "The first version of the bot",
+        "features": ["AutoRole (finished)", "Configuration", "Information (adding new commands)", "Message Management"]
+    },
+    "releases" : [
+        {
+            "name": "Release V1.0",
+            "id": "v1.0",
+            "description": "The first version of the bot",
+            "features": ["AutoRole (finished)", "Configuration", "Information (adding new commands)", "Message Management"]
+        },
+        {
+            "name": "Pre-release V0.1",
+            "id": "v0.1",
+            "description": "The bot was just borned",
+            "features": ["Moderation", "Information", "AutoRole"]
+        }
+    ]
+}

@@ -43,3 +43,28 @@ export const convertTime = async(time: string) => {
         return time2
     } return "error"
 }
+
+export const visuelTime = async(AllMs: number) => {
+
+    let totalSeconds = (AllMs / 1000);
+    let days = Math.floor(totalSeconds / 86400);
+    totalSeconds %= 86400;
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = Math.floor(totalSeconds % 60);
+
+    let time = []
+    let timeText = ""
+    if (days !== 0) time.push(""+days+" day"+(days === 1 ? "" : "s"))
+    if (hours !== 0) time.push(""+hours+" hour"+(hours === 1 ? "" : "s"))
+    if (minutes !== 0) time.push(""+minutes+" minute"+(minutes === 1 ? "" : "s"))
+    if (seconds !== 0) time.push(""+seconds+" second"+(seconds === 1 ? "" : "s"))
+    if (time.length === 4) timeText = time[0]+", "+time[1]+", "+time[2]+" and "+time[3]
+    if (time.length === 3) timeText = time[0]+", "+time[1]+" and "+time[2]
+    if (time.length === 2) timeText = time[0]+" and "+time[1]
+    if (time.length === 1) timeText = time[0]
+    if (time.length === 0) timeText = "Less than a minute"
+
+    return timeText
+}

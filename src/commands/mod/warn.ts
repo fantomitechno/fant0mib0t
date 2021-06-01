@@ -1,7 +1,7 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
-import { create, query } from '../../functions/db'
+import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
 
@@ -36,16 +36,15 @@ export default new Command(
 				text: `An error aucured when I tried to dm this user`
 			}
 		})
-		let created = await create("casier", ["id", member.id], ["guilds, reasons, mods, type", `"${ctx.guild?.id}", "${reason}", "${ctx.author.id}, "warn"`])
-		if (!created) {
-			query(`SELECT * FROM casier WHERE id = "${member.id}"`, (err: MysqlError|null, res: any) => {
-				if (err) return console.log(err)
+		query(`SELECT * FROM casier WHERE id = "${member.id}"`, (err: MysqlError|null, res: any) => {
+			if (err) return console.log(err)
+			if (!res.length) {
+				query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${member.id}", "${ctx.guild?.id}", "warn", "${reason}", "${ctx.author.id}")`)
+			} else {
 				res = res[0]
-				query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/warn"}" WHERE id = "${member.id}"`, (err: MysqlError|null, _: any) => {
-					if (err) return console.log(err)
-				})
-			})
-		}
+				query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/warn"}" WHERE id = "${member.id}"`)
+			}
+		})
 		ctx.delete()
 		ctx.send(embedBanner)
 		sendToModLogs(ctx.guild, `<a:banhammer:844881353841442826> ${member} by ${ctx.member} | reason : ${reason}`, "warn")

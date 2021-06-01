@@ -1,5 +1,5 @@
-import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
-import { GuildChannel, NewsChannel, TextChannel } from 'discord.js';
+import { Command, CommandHandler, Tag } from 'advanced-command-handler'
+import { NewsChannel, TextChannel } from 'discord.js';
 import { MysqlError } from 'mysql';
 import { Context } from '../../class/Context'
 import { query } from '../../functions/db';

@@ -12,7 +12,7 @@ export default new Command(
 	{
 		name: 'userinfo',
 		description: 'Get informations on you',
-		aliases: ['ui','info'],
+		aliases: ['ui'],
 		tags: [Tag.guildOnly],
 		cooldown: 5,
     usage: 'userinfo <member>'
@@ -282,7 +282,7 @@ export default new Command(
       
               ctx.font = '40px Whitney Medium'
               ctx.fillStyle = 'white'
-              ctx.fillText(textLimiter(activity.name, 30), 50, 680)
+              ctx.fillText(textLimiter(activity.name, 40), 50, 680)
       
               ctx.font = '35px Whitney Medium'
       

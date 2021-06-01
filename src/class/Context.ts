@@ -1,5 +1,6 @@
-import { Message, NewsChannel, TextChannel, Guild, EmojiIdentifierResolvable } from "discord.js";
+import { Message, NewsChannel, TextChannel, Guild, EmojiIdentifierResolvable, MessageOptions, MessageAdditions, StringResolvable, APIMessage } from "discord.js";
 import { CommandHandler, AdvancedClient, Command, Logger } from "advanced-command-handler"
+
 
 export class Context {
     /**
@@ -19,19 +20,20 @@ export class Context {
     public prefix: string
 
     /**
-     * The prefixes
+     * The args
      */
      public args: string[]
      
     /**
-     * The prefixes
+     * The command
      */
      public command: Command
 
      /**
-      * The prefixes
+      * The handler
       */
       public handler: typeof CommandHandler
+
 
     public constructor(handler: typeof CommandHandler ,message: Message, prefix: string, args: string[], command: Command) {
         this.message = message

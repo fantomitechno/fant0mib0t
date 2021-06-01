@@ -19,7 +19,11 @@ export default new Command(
         if (number < 0) return ctx.send("Really ?")
         ctx.delete()
         ctx.bulkDelete((number)).then(() =>{
-            ctx.send("You deleted "+ number + "messages.")
+            ctx.send("You deleted "+ number + " messages.").then(m => {
+              setTimeout(() => {
+                m.delete()
+              }, 5000)
+            })
         }).catch(async () => {
             const numberDelete = number/100
             await del(Math.floor(numberDelete), ctx.message.id, ctx, number > 100 ? 100 : number, number, number)
@@ -38,7 +42,11 @@ const del = async(number: any, id: any, ctx: Context, number2: any, numberDelete
         }
       }
       if (number === 0) {
-          ctx.send("You deleted "+ total + "messages.")
+          ctx.send("You deleted "+ total + " messages.").then(m => {
+            setTimeout(() => {
+              m.delete()
+            }, 5000)
+          })
         } else {
           number--
           numberDelete -= 100

@@ -1,7 +1,7 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
-import { create, query } from '../../functions/db'
+import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
 

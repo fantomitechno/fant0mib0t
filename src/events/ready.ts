@@ -1,6 +1,6 @@
 import { CommandHandler, Event, Logger } from 'advanced-command-handler'
 import { MysqlError } from 'mysql';
-import { presence, database } from '../config.json'
+import { presence, database } from '../JSON/config.json'
 import { query } from '../functions/db';
 import { sendToModLogs } from '../functions/logging';
 
@@ -98,7 +98,10 @@ export default new Event(
                         if (channel?.isText) {
                             channel.messages.fetch(r.message_id).then((msg: any) => {
                                 msg
-                            }).catch((err: any) => console.log(err))
+                            }).catch((err: any) => {
+                                Logger.error("An autorole has been removed")
+                                query("DELETE FROM autorole WHERE message_id = '"+r.message_id+"'")
+                            })
                         }
                     }
                 })
