@@ -79,8 +79,8 @@ export class Context {
         return this.guild?.me
     }
 
-    public send = (content: any) => {
-        return this.channel.send(content)
+    public send = (content: StringResolvable|APIMessage, options?: MessageAdditions|(MessageOptions & {split?: false | undefined})) => {
+        return this.channel.send(content, options ?? {})
     }
 
     public reply = (content: any) => {
