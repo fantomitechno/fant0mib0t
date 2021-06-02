@@ -1,5 +1,7 @@
 import { BetterEmbed, Command, CommandHandler } from 'advanced-command-handler';
 import { Context } from '../../class/Context';
+require('../../JSON/patchnote.json')
+
 type patchnote = {
     latest: {
         name: string,
@@ -44,7 +46,7 @@ export default new Command(
         } else {
             const embed = new BetterEmbed({
                 title: "Latest bot version:",
-                description: `Name: \`${patchnote.latest.name}\`\nId: \`${patchnote.latest.id}\n\n*${patchnote.latest.description}*\nNew features:\n\`${patchnote.latest.features.length ? patchnote.latest.features.join('\`, \`') : "None"}\``,
+                description: `Name: \`${patchnote.latest.name}\`\nId: \`${patchnote.latest.id}\`\n\n*${patchnote.latest.description}*\nNew features:\n\`${patchnote.latest.features.length ? patchnote.latest.features.join('\`, \`') : "None"}\``,
                 footer: {
                     text: "To have the list of all the version use \"patchnote list\""
                 }
