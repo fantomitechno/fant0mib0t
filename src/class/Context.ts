@@ -1,4 +1,4 @@
-import { Message, NewsChannel, TextChannel, Guild, EmojiIdentifierResolvable, MessageOptions, MessageAdditions, StringResolvable, APIMessage } from "discord.js";
+import { Message, NewsChannel, TextChannel, Guild, EmojiIdentifierResolvable, MessageOptions, MessageAdditions, StringResolvable, APIMessage, APIMessageContentResolvable } from "discord.js";
 import { CommandHandler, AdvancedClient, Command, Logger } from "advanced-command-handler"
 
 
@@ -79,8 +79,10 @@ export class Context {
         return this.guild?.me
     }
 
-    public send = (content: StringResolvable|APIMessage, options?: MessageAdditions|(MessageOptions & {split?: false | undefined})) => {
-        return this.channel.send(content, options ?? {})
+    public send = (content: APIMessageContentResolvable | (MessageOptions & {
+        split?: false | undefined;
+    }) | MessageAdditions) => {
+        return this.channel.send(content)
     }
 
     public reply = (content: any) => {

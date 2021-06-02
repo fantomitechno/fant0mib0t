@@ -21,7 +21,7 @@ export default new Command(
 			if (!res.length) return sendList(ctx)
 			const resEdit = res[0]
             ctx.member?.roles.add(resEdit.role)
-            ctx.send(`Role <@&${resEdit.role}> gived`, {disableMentions: 'all'})
+            ctx.send({disableMentions: 'all', content: `Role <@&${resEdit.role}> gived`})
 		})
 	}
 );

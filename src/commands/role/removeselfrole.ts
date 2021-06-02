@@ -20,7 +20,7 @@ export default new Command(
 			if (!res.length) return ctx.send('You have to give a valid tag')
 			const resEdit = res[0]
             query(`DELETE FROM selfrole WHERE role = "${resEdit.role}"`)
-            ctx.send(`The selfrole for <@&${resEdit.role}> has been removed`, {disableMentions: 'all'})
+            ctx.send({disableMentions: 'all', content: `The selfrole for <@&${resEdit.role}> has been removed`})
 		})
 	}
 );

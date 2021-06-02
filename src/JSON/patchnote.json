@@ -1,11 +1,17 @@
 {
     "latest" : {
-        "name": "Release V1.0",
-        "id": "v1.0",
-        "description": "The first version of the bot",
-        "features": ["AutoRole (finished)", "Configuration", "Information (adding new commands)", "Message Management"]
+        "name": "Snapchot V1.1",
+        "id": "v1.1",
+        "description": "Self asignable roles",
+        "features": ["Selfrole", "Alert command"]
     },
     "releases" : [
+        {
+            "name": "Snapchot V1.1",
+            "id": "v1.1",
+            "description": "Self asignable roles",
+            "features": ["Selfrole", "Alert command"]
+        },
         {
             "name": "Release V1.0",
             "id": "v1.0",

@@ -24,7 +24,7 @@ export default new Command(
 			if (!role1) return ctx.send(`I can't find a role with the arg you sended`)
 			query(`SELECT * FROM selfrole WHERE role = "${role1.id}" AND guild ="${ctx.guild?.id}"`, async(err: MysqlError, res: selfrole[]) => {
 				if (res.length) return ctx.send(`This role is already in my database`)
-				ctx.send(`Are you sure you want to link the role \`${role1}\` to the keyword \`${ctx.args[0]}\` and authorize your member`, {disableMentions: 'all'}).then(async(m) => {
+				ctx.send({disableMentions: 'all', content: `Are you sure you want to link the role \`${role1}\` to the keyword \`${ctx.args[0]}\` and authorize your member`}).then(async(m) => {
 					await m.react('✅')
 					await m.react('❌')
 					const col = m.createReactionCollector((reaction, user) => ['✅','❌'].includes(reaction.emoji.name) && user.id == ctx.author.id, {time: 30000})

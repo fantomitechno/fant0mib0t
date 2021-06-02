@@ -111,6 +111,6 @@ export default new Command(
 				}
 			}
 		}
-		return ctx.send({embed: embed})
+		return ctx.send(embed)
 	}
 )
