@@ -1,4 +1,4 @@
-import { Command, CommandHandler, Tag } from 'advanced-command-handler';
+import { BetterEmbed, Command, CommandHandler, Tag } from 'advanced-command-handler';
 import { MysqlError } from 'mysql';
 import { Context } from '../../class/Context';
 import { query } from '../../functions/db';
@@ -16,34 +16,26 @@ export default new Command(
 		tags: [Tag.guildOnly]
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
-		if (!ctx.args[0]) return ctx.send('You have to give a word that will be used as key word to give the role')
+		if (!ctx.args[0]) return sendList(ctx)
 		query(`SELECT * FROM selfrole WHERE tag = "${ctx.args[0]}" AND guild ="${ctx.guild?.id}"`, async(err: MysqlError, res: selfrole[]) => {
-			if (res.length) return ctx.send(`A role with this key word already exist in my database`)
-			if (!ctx.args[1]) return ctx.send("You have to give a role to add")
-			let role1 = await getRole(ctx.message, ctx.args.slice(1).join(' '))
-			if (!role1) return ctx.send(`I can't find a role with the arg you sended`)
-			query(`SELECT * FROM selfrole WHERE role = "${role1.id}" AND guild ="${ctx.guild?.id}"`, async(err: MysqlError, res: selfrole[]) => {
-				if (res.length) return ctx.send(`This role is already in my database`)
-				ctx.send(`Are you sure you want to link the role \`${role1?.name}\` to the keyword \`${ctx.args[0]}\` and authorize your member`).then(async(m) => {
-					await m.react('✅')
-					await m.react('❌')
-					const col = m.createReactionCollector((reaction, user) => ['✅','❌'].includes(reaction.emoji.name) && user.id == ctx.author.id, {time: 30000})
-					col.on("collect", (r, _) => {
-						if (r.emoji.name === '✅') {
-							query(`INSERT INTO selfrole (tag, role, guild) VALUES ("${ctx.args[0]}", "${role1?.id}", "${ctx.guild?.id}")`)
-							m.delete()
-							ctx.send('The selfrole have been created')
-						} else {
-							m.delete()
-							ctx.send("The selfrole creation have been canceled")
-						}
-					})
-				})
-			})
+			if (!res.length) return sendList(ctx)
+			const resEdit = res[0]
+            ctx.member?.roles.add(resEdit.role)
+            ctx.send(`Role <@&${resEdit.role}> gived`, {disableMentions: 'all'})
 		})
 	}
 );
 
-const sendList = async (ctx:Context) => {
-    query('SELECT * FROM')
+const sendList = async (ctx: Context) => {
+    query('SELECT * FROM selfrole WHERE guild = "'+ctx.guild?.id+'"', (err: MysqlError, res: selfrole[]) => {
+        let text = `These roles can be gived to you by typing : \`selfrole [tag]\``
+        for (const sr of res) {
+            text += `\n\`${sr.tag}\` | <@&${sr.role}>`
+        }
+        const embed = new BetterEmbed({
+            title: "Self assignable roles for "+ ctx.guild?.name,
+            description: text
+        })
+        ctx.send(embed)
+    })
 }
