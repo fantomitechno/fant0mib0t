@@ -1,6 +1,8 @@
 import { CommandHandler, Event } from 'advanced-command-handler'
 import { Guild } from 'discord.js'
+import { MysqlError } from 'mysql'
 import { query } from '../functions/db'
+import { SConfig } from '../type/Database'
 
 export default new Event(
     {
@@ -12,7 +14,9 @@ export default new Event(
             avatar: guild.client?.user?.avatarURL() ?? undefined,
             reason: "Don't touch this !"
         }).then(_ => {
-            query(`INSERT INTO config (guild, config) VALUES ("${guild.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": "", "linkPreview":true}')`)
+            query(`SELECT * FROM config WHERE guild = "${guild.id}"`, (err: MysqlError, res: SConfig[]) => {
+                if (!res.length) query(`INSERT INTO config (guild, config) VALUES ("${guild.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": "", "linkPreview":true}')`)
+            })
         })
     }
 )
