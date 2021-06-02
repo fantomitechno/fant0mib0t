@@ -4,6 +4,7 @@ import { Context } from '../../class/Context'
 import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
+import { casier } from '../../type/Database'
 
 const typesWarn: any = {"bans": "ban", "kicks": "kick", "mutes": "mute", "warns": "warn"}
 export default new Command(
@@ -28,15 +29,15 @@ export default new Command(
 		const id: number = Number(ctx.args[2])
 		if (isNaN(id)) return ctx.send('Id must be a number.')
 
-        query(`SELECT * FROM casier WHERE id = ${member.id}`, (err: MysqlError|null, res: any) => {
+        query(`SELECT * FROM casier WHERE id = ${member.id}`, (err: MysqlError|null, res: casier[]) => {
             if (err) return console.log(err)
             const casier: any = {}
             
-            res = res[0]
-            let guilds = res.guilds.split('/')
-            let reasons = res.reasons.toString().split('/')
-            let mods = res.mods.split('/')
-            let types = res.type.split('/')
+            const resEdit = res[0]
+            let guilds = resEdit.guilds.split('/')
+            let reasons = resEdit.reasons.toString().split('/')
+            let mods = resEdit.mods.split('/')
+            let types = resEdit.type.split('/')
 
             for (const guild of guilds) {
                 casier[guild] = {

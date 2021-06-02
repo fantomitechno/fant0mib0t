@@ -4,6 +4,7 @@ import { MysqlError } from 'mysql';
 import { Context } from '../../class/Context';
 import { query } from '../../functions/db';
 import { Config } from '../../type/Config';
+import { SConfig } from '../../type/Database';
 
 
 export default new Command(
@@ -14,7 +15,7 @@ export default new Command(
 		usage: "config [key] <value>"
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
-		query(`SELECT config FROM config WHERE guild = "${ctx.guild?.id}"`, (err: MysqlError, res: any) => {
+		query(`SELECT config FROM config WHERE guild = "${ctx.guild?.id}"`, (err: MysqlError, res: SConfig[]) => {
 			if (err) return console.error(err)
 			if (!res.length) return ctx.send("An error occured...")
 			const settings: Config = JSON.parse(res[0].config)

@@ -2,6 +2,7 @@ import { CommandHandler, Event } from 'advanced-command-handler'
 import { MessageReaction, User } from 'discord.js'
 import { MysqlError } from 'mysql'
 import { query } from '../functions/db'
+import { autorole } from '../type/Database'
 
 export default new Event(
     {
@@ -9,7 +10,7 @@ export default new Event(
     },
     async (handler: typeof CommandHandler, messageReaction: MessageReaction, user: User): Promise<any> => {
         if (!messageReaction.message.guild) return
-        query("SELECT * FROM autorole WHERE message_id = " + messageReaction.message.id, (err: MysqlError, results: any) => {
+        query("SELECT * FROM autorole WHERE message_id = " + messageReaction.message.id, (err: MysqlError, results: autorole[]) => {
             if (results.length == 1) {
                 let roleList = JSON.parse(results[0].role.toString())
                 if (roleList[messageReaction.emoji.name]) {

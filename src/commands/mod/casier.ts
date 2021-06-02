@@ -4,6 +4,7 @@ import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
 import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
+import { casier } from '../../type/Database'
 
 
 export default new Command(
@@ -19,14 +20,14 @@ export default new Command(
         let member: GuildMember|undefined|null = getUserFromMention(ctx.message, ctx.args[0] ?? "fantomitechno")
         if (!member) member = ctx.member
         const casier: any = {}
-		query(`SELECT * FROM casier WHERE id = "${member?.id}"`, (err: MysqlError|null, res: any) => {
+		query(`SELECT * FROM casier WHERE id = "${member?.id}"`, (err: MysqlError|null, res: casier[]) => {
             if (err) return console.log(err)
             if (!res.length) return ctx.send(`${member?.user.tag} has no case`)
-            res = res[0]
-            const guilds = res.guilds.split('/')
-            const reasons = res.reasons.toString().split('/')
-            const mods = res.mods.split('/')
-            const types = res.type.split('/')
+            const resEdit = res[0]
+            const guilds = resEdit.guilds.split('/')
+            const reasons = resEdit.reasons.toString().split('/')
+            const mods = resEdit.mods.split('/')
+            const types = resEdit.type.split('/')
             if (!ctx.guild) return
 
             

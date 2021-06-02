@@ -2,6 +2,7 @@ import { BetterEmbed, Command, CommandHandler, Tag } from 'advanced-command-hand
 import { MysqlError } from 'mysql'
 import { Context } from '../../class/Context'
 import { query } from '../../functions/db'
+import { autorole } from '../../type/Database'
 
 
 export default new Command(
@@ -21,7 +22,7 @@ export default new Command(
                 text: "Requested by "+ ctx.author.username
             }
         })
-        query(`SELECT * FROM autorole WHERE server_id = "${ctx.guild?.id}"`, (err: MysqlError, res: any) => {
+        query(`SELECT * FROM autorole WHERE server_id = "${ctx.guild?.id}"`, (err: MysqlError, res: autorole[]) => {
             if (!res.length) {
                 embed.description = `There's no autorole on this server`
             } else {

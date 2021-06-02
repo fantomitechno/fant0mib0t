@@ -3,6 +3,7 @@ import { NewsChannel, TextChannel } from 'discord.js';
 import { MysqlError } from 'mysql';
 import { Context } from '../../class/Context'
 import { query } from '../../functions/db';
+import { autorole } from '../../type/Database';
 
 
 export default new Command(
@@ -50,7 +51,7 @@ export default new Command(
                 const getMsg = await (ctx.guild?.channels.cache.get(channel) as TextChannel|NewsChannel)?.messages.fetch(msg1)
                 if (!getMsg) return ctx.send("The message you sended is not available or I can't see it")
                 idMessage = getMsg
-                query(`SELECT * FROM autorole WHERE message_id = "${idMessage.id}"`, (err: MysqlError, res: any) => {
+                query(`SELECT * FROM autorole WHERE message_id = "${idMessage.id}"`, (err: MysqlError, res: autorole[]) => {
                     if (res.length) return ctx.send('This message is already an autorole')
                     idChannel = channel
                     etape ++

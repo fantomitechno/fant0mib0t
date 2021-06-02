@@ -2,9 +2,10 @@ import { BetterEmbed, CommandHandler, Event } from 'advanced-command-handler'
 import { Message } from 'discord.js'
 import { MysqlError } from 'mysql'
 import fetch from "node-fetch"
-import { create, query } from '../functions/db'
+import { query } from '../functions/db'
 import { sendToModLogs } from '../functions/logging'
 import { countUpperCase } from '../functions/string'
+import { Config } from '../type/Config'
 
 let spam: any = {}
 let spam2: any = {}
@@ -13,7 +14,7 @@ export default new Event(
     {
         name: 'automod'
     },
-    async (handler: typeof CommandHandler, message: Message, config: any): Promise<any> => {
+    async (handler: typeof CommandHandler, message: Message, config: Config): Promise<any> => {
         if (message.member?.hasPermission("MANAGE_MESSAGES")) return
         const str2 = message.content.match(/(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/(\w+)/)
         if (config.automod.antilink && str2) {

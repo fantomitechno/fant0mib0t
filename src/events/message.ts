@@ -1,9 +1,10 @@
 import {Message} from 'discord.js';
 import {Event, CommandHandler, getThing, permissionsError, Tag, Logger, argError, codeError} from 'advanced-command-handler'
 import {Context} from "../class/Context"
-import {query, create} from "../functions/db"
+import {query} from "../functions/db"
 import { MysqlError } from 'mysql';
 import { Config } from '../type/Config';
+import { SConfig } from '../type/Database';
 
 export default new Event(
 	{
@@ -15,10 +16,9 @@ export default new Event(
 		const prefix = CommandHandler.getPrefixFromMessage(message);
 
 		if (message.guild) {
-			create("config", ["guild", message.guild.id], ["config", `{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": "", "linkPreview":true}`])
-			query(`SELECT * FROM config WHERE guild = "${message.guild.id}"`, (err: MysqlError, res: any) => {
-				res = res[0]
-				let config: Config = JSON.parse(res.config)
+			query(`SELECT * FROM config WHERE guild = "${message.guild.id}"`, (err: MysqlError, res: SConfig[]) => {
+				const resEdit = res[0]
+				let config: Config = JSON.parse(resEdit.config)
 				if (config.linkPreview && !prefix) handler.client?.emit("linkPreview", (message))
 				handler.client?.emit("automod", message, config)
 			})

@@ -3,6 +3,8 @@ import { MysqlError } from 'mysql';
 import { presence, database } from '../JSON/config.json'
 import { query } from '../functions/db';
 import { sendToModLogs } from '../functions/logging';
+import { autorole, mute, temp } from '../type/Database';
+import { GuildChannel } from 'discord.js';
 
 export default new Event(
     {
@@ -48,7 +50,7 @@ export default new Event(
             Logger.event(
                 `Starting temps loop..`
             )
-            query("SELECT * FROM temp", (err: MysqlError, result: any) => {
+            query("SELECT * FROM temp", (err: MysqlError, result: temp[]) => {
                 for (const res of result) {
                     const timePassed = Date.now() - res.date
                     if (timePassed >= res.time) {
@@ -67,7 +69,7 @@ export default new Event(
                                 if (!member) return
                                 let mutedRole = guild?.roles.cache.find(r => r.name.toLowerCase().includes("mute") && !r.managed)?.id ?? "0"
                                 if (!member.roles.cache.has(mutedRole)) return
-                                query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${guild?.id}"`, (err: MysqlError|null, res: any) => {
+                                query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${guild?.id}"`, (err: MysqlError|null, res: mute[]) => {
                                     if (err) return console.log(err)
                                     if (res.length) {
                                         query(`DELETE FROM mute WHERE id = "${member?.id}" AND guild = "${guild?.id}"`)
@@ -89,16 +91,16 @@ export default new Event(
 
         const autoRoleFetch = async() => {
             Logger.event(`Fetching autorole..`)
-            query("SELECT * FROM autorole",(err: MysqlError, results: any) => {
+            query("SELECT * FROM autorole",(err: MysqlError, results: autorole[]) => {
                 if (!results.length) return
-                results.map((r: any) => {
+                results.map((r: autorole) => {
                     let server = handler.client?.guilds.cache.get(r.server_id)
                     if (server) {
-                        let channel: any = server.channels.cache.get(r.channel_id)
-                        if (channel?.isText) {
-                            channel.messages.fetch(r.message_id).then((msg: any) => {
+                        let channel: GuildChannel|undefined = server.channels.cache.get(r.channel_id)
+                        if (channel?.isText()) {
+                            channel.messages.fetch(r.message_id).then((msg) => {
                                 msg
-                            }).catch((err: any) => {
+                            }).catch((err: Error) => {
                                 Logger.error("An autorole has been removed")
                                 query("DELETE FROM autorole WHERE message_id = '"+r.message_id+"'")
                             })

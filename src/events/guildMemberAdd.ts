@@ -2,6 +2,7 @@ import { CommandHandler, Event } from 'advanced-command-handler'
 import { GuildMember } from 'discord.js'
 import { MysqlError } from 'mysql'
 import { query } from '../functions/db'
+import { mute } from '../type/Database'
 
 export default new Event(
     {
@@ -9,7 +10,7 @@ export default new Event(
     },
 
     async (handler: typeof CommandHandler, member: GuildMember): Promise<any> => {
-        query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${member.guild?.id}"`, (err: MysqlError|null, res: any) => {
+        query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${member.guild?.id}"`, (err: MysqlError|null, res: mute[]) => {
 			if (err) return console.log(err)
 			if (res.length) {
                 if (!member.guild.me?.hasPermission('MANAGE_ROLES')) return

@@ -5,6 +5,7 @@ import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
 import { convertTime } from '../../functions/string'
+import { casier } from '../../type/Database'
 
 
 export default new Command(
@@ -45,13 +46,13 @@ export default new Command(
 			}
 		})
 		member.roles.add(mutedRole, ctx.args.slice(1).join(' ') + " | Opered by " + ctx.member?.displayName).then(async m => {
-			query(`SELECT * FROM casier WHERE id = "${m.id}"`, (err: MysqlError|null, res: any) => {
+			query(`SELECT * FROM casier WHERE id = "${m.id}"`, (err: MysqlError|null, res: casier[]) => {
 				if (err) return console.log(err)
 				if (!res.length) {
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "tempmute", "${reason}", "${ctx.author.id}")`)
 				} else {
-					res = res[0]
-					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/tempmute"}" WHERE id = "${m.id}"`)
+					const resEdit = res[0]
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + "/" + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + "/" + reason}",  mods = "${resEdit.mods + "/" + ctx.author.id}", type = "${resEdit.type + "/tempmute"}" WHERE id = "${m.id}"`)
 				}
                 query(`INSERT INTO temp (id, guild, type, date, time) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${Date.now()}", "${time}")`)
 			})

@@ -4,6 +4,7 @@ import { Context } from '../../class/Context'
 import { query } from '../../functions/db'
 import { getUserFromMention } from '../../functions/get'
 import { sendToModLogs } from '../../functions/logging'
+import { casier } from '../../type/Database'
 
 
 export default new Command(
@@ -40,13 +41,13 @@ export default new Command(
 			}
 		})
 		member.ban({reason: ctx.args.slice(1).join(' ') + " | Opered by " + ctx.member?.displayName}).then(async m => {
-			query(`SELECT * FROM casier WHERE id = "${member.id}"`, (err: MysqlError|null, res: any) => {
+			query(`SELECT * FROM casier WHERE id = "${member.id}"`, (err: MysqlError|null, res: casier[]) => {
 				if (err) return console.log(err)
 				if (!res.length) {
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${member.id}", "${ctx.guild?.id}", "ban", "${reason}", "${ctx.author.id}")`)
 				} else {
-					res = res[0]
-					query(`UPDATE casier SET guilds = "${res.guilds + "/" + ctx.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + ctx.author.id}", type = "${res.type + "/ban"}" WHERE id = "${member.id}"`)
+					const resEdit = res[0]
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + "/" + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + "/" + reason}",  mods = "${resEdit.mods + "/" + ctx.author.id}", type = "${resEdit.type + "/ban"}" WHERE id = "${member.id}"`)
 				}
 			})
 			ctx.delete()
