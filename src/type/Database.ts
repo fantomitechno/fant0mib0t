@@ -38,3 +38,12 @@ export type temp = {
     time: number,
     date: number
 }
+
+export type rss = {
+    guild: string,
+    channel: string,
+    flux: string,
+    type: string,
+    lastCheck: number,
+    message: Blob
+}

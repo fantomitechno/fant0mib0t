@@ -111,6 +111,10 @@ export default new Event(
             Logger.event(`Autorole are fetched`)
         }
 
+        const rss = () => {
+            handler.client?.emit('rss')
+        }
+
         setInterval(() => autoRoleFetch, 36000000)
 
         autoRoleFetch()
