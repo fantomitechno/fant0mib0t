@@ -32,6 +32,9 @@ const sendList = async (ctx: Context) => {
         for (const sr of res) {
             text += `\n\`${sr.tag}\` | <@&${sr.role}>`
         }
+        if (!res.length) {
+            text += `\nNo self asignable role have been created for this guild. Use \`addselfrole\` to add some`
+        }
         const embed = new BetterEmbed({
             title: "Self assignable roles for "+ ctx.guild?.name,
             description: text
