@@ -18,11 +18,11 @@ export default new Command(
         getWebhook(ctx.guild)
         query("SELECT * FROM config WHERE guild = '"+ctx.guild.id+"'", async (err: MysqlError, res: SConfig[]) => {
             if (!res.length) {
-                query(`INSERT INTO config (guild, config, webhook) VALUES ("${ctx.guild?.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": "", "linkPreview":true}')`)
+                query(`INSERT INTO config (guild, config, webhook) VALUES ("${ctx.guild?.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": null, "linkPreview":true, "dynamicVoiceBase": null}')`)
                 text += `\nCreated a sconfig`
             } else {
                 query(`DELETE FROM config WHERE guild = "${ctx.guild?.id}"`)
-                query(`INSERT INTO config (guild, config, webhook) VALUES ("${ctx.guild?.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": "", "linkPreview":true}')`)
+                query(`INSERT INTO config (guild, config, webhook) VALUES ("${ctx.guild?.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": null, "linkPreview":true, "dynamicVoiceBase": null}')`)
                 text += `\nReseted the sconfig`
             }
         })

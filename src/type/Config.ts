@@ -5,6 +5,7 @@ export type Config = {
         spam: boolean,
         dupplicated: boolean
     },
-    antilinkBypass: string,
-    linkPreview: boolean
+    antilinkBypass: string|null,
+    linkPreview: boolean,
+    dynamicVoiceBase: string|null
 }

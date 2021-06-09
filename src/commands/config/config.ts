@@ -25,7 +25,7 @@ export default new Command(
 
 				const embed = new BetterEmbed({
 					title: "Configuration for " + ctx.guild?.name,
-					description: `To edit a configuration use \`set[setting]\` (it will open a menu or switch between on and off)\nTo see a configuration use \`config [setting]\`\n\n All possible configurable settings categories are : \`${allSettings.slice(1).join('\`, \`')}\``
+					description: `To see and edit a configuration use \`config [setting] <value>\` or \`config [category] [setting] <value>\`\n\n All possible configurable settings categories are : \`${allSettings.slice(1).join('\`, \`')}\``
 				})
 
 				return ctx.send(embed)

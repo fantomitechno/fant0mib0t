@@ -24,7 +24,7 @@ export default new Event(
             fetch(`https://discordapp.com/api/v6/invites/${motbl}`)
             .then(async (res: any) => res.json())
             .then(async (json: any) => {
-                if (config.antilinkBypass.includes(json.guild.id)) return
+                if (config.antilinkBypass?.includes(json.guild.id)) return
                 Mod(message, handler, `Tried to send a link to another discord | Automated warn`)
             })
         }
