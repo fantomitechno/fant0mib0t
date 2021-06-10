@@ -37,7 +37,7 @@ export default new Command(
 					let config = (settings as any)[ctx.args[0]]
 					sendSettings(ctx.message, config, ctx.args[0], `To edit the configuration use \`config [key] <key 2> [value]\`\n\nExamples :\n\`config automod antilink false\` | Disable the anti invite link automod\n\n All possible configurable settings categories are : \`${allSettings.slice(1).join('\`, \`')}\``)
 				} else {
-					if (typeof sets[ctx.args[0]] === 'object' && sets !== null) {
+					if (typeof sets[ctx.args[0]] === 'object' && sets[ctx.args[0]] !== null) {
 						let value = Object.keys(sets[ctx.args[0]])
 						
 						if (value.includes(ctx.args[1])) {
@@ -48,16 +48,19 @@ export default new Command(
 
 							sets[ctx.args[0]][ctx.args[1]] = newSettings
 							
-							query(`UPDATE FROM config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
+							query(`UPDATE config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
 							ctx.reply(`The config ${ctx.args[1]} of the category ${ctx.args[0]} has been changed to ${newSettings}`)
 						}
 					} else {
 						let newSettings: string|null|boolean = ctx.args[1]
+
 						if (["true", "false"].includes(newSettings)) newSettings = Boolean(newSettings)
+
 						if (newSettings === 'null') newSettings = null
+
 						sets[ctx.args[0]] = newSettings
-						console.log(`UPDATE FROM config WHERE guild = "${ctx.guild?.id}" SET config = '${JSON.stringify(sets)}'`)
-						query(`UPDATE FROM config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
+						
+						query(`UPDATE config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
 						ctx.reply(`The config ${ctx.args[0]} has been changed to ${newSettings}`)
 					}
 				}
@@ -65,7 +68,6 @@ export default new Command(
 		})
 	}
 );
-
 
 function sendSettings(message: Message, settings: Config, category: string, desc: string) {
 
