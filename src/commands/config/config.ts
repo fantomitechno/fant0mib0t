@@ -47,16 +47,17 @@ export default new Command(
 							if (newSettings === 'null') newSettings = null
 
 							sets[ctx.args[0]][ctx.args[1]] = newSettings
-							query(`UPDATE FROM config WHERE guild = "${ctx.guild?.id}" SET config = "${JSON.stringify(sets)}"`)
+							
+							query(`UPDATE FROM config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
 							ctx.reply(`The config ${ctx.args[1]} of the category ${ctx.args[0]} has been changed to ${newSettings}`)
 						}
 					} else {
-						
-						let newSettings: string|null = ctx.args[1]
+						let newSettings: string|null|boolean = ctx.args[1]
+						if (["true", "false"].includes(newSettings)) newSettings = Boolean(newSettings)
 						if (newSettings === 'null') newSettings = null
-
 						sets[ctx.args[0]] = newSettings
-						query(`UPDATE FROM config WHERE guild = "${ctx.guild?.id}" SET config = "${JSON.stringify(sets)}"`)
+						console.log(`UPDATE FROM config WHERE guild = "${ctx.guild?.id}" SET config = '${JSON.stringify(sets)}'`)
+						query(`UPDATE FROM config SET config = '${JSON.stringify(sets)}' WHERE guild = "${ctx.guild?.id}"`)
 						ctx.reply(`The config ${ctx.args[0]} has been changed to ${newSettings}`)
 					}
 				}

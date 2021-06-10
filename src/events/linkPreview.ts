@@ -27,10 +27,9 @@ export default new Event(
                                 embeds: embeds,
                                 files: m.attachments.map(a => a),
                                 username: m.member?.displayName,
-                                avatarURL: m.author.avatarURL() ?? undefined,
-                                split: true
-                            }).then(async (m: Message[]) => {
-                                let msg_1 = m[0]
+                                avatarURL: m.author.avatarURL() ?? undefined
+                            }).then(async (m: Message) => {
+                                let msg_1 = m
 								await msg_1.react('🗑️')
 								const id = message.author.id
 								const collector = msg_1.createReactionCollector((reaction, user) => reaction.emoji.name === "🗑️" && user.id == id, {time: 600000})
