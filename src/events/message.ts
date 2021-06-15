@@ -17,6 +17,10 @@ export default new Event(
 
 		if (message.guild) {
 			query(`SELECT * FROM config WHERE guild = "${message.guild.id}"`, (err: MysqlError, res: SConfig[]) => {
+				if (!res.length) {
+					query(`INSERT INTO config (guild, config) VALUES ("${message.guild?.id}", '{"automod":{"antilink": true, "uppercase":true, "spam":true, "dupplicated":true}, "antilinkBypass": null, "linkPreview":true, "dynamicVoiceBase": null}')`)
+					return
+				}
 				const resEdit = res[0]
 				let config: Config = JSON.parse(resEdit.config)
 				if (config.linkPreview && !prefix) handler.client?.emit("linkPreview", (message))
