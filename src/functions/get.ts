@@ -124,15 +124,16 @@ export const getChannel = (message: Message, string: string) => {
 
 export const getWebhook = async (guild: Guild) => {
     const w = await guild.fetchWebhooks()
-    let webhook = w.map(w => w).filter(w => w.name === "fant0mib0t-webhook")
-    if (!webhook.length) {
-        await guild.systemChannel?.createWebhook("fant0mib0t-webhook", {
+    let webhook = w.map(w => w).find(w => w.name === "fant0mib0t-webhook")
+    if (!webhook) {
+        const channel = guild.channels.cache.array().filter(c => c.isText())[0] as TextChannel|null
+        await channel?.createWebhook("fant0mib0t-webhook", {
             avatar: guild.client?.user?.avatarURL() ?? undefined,
             reason: "Don't touch this !"
         }).then(w => {
             return w
         })
     } else {
-        return webhook[0]
+        return webhook
     }
 }

@@ -8,6 +8,7 @@ export default new Event(
     },
     async (handler: typeof CommandHandler, message: Message): Promise<any> => {
         if (message.content.replace(/discord.com/g,"discordapp.com").includes("discordapp.com/channels/")) {
+            console.log('t')
             let messageLink = message.content.replace(/discord.com/g,"discordapp.com").split("discordapp.com/channels/")[1]
             let server = messageLink.split("/")[0]
             let channel = messageLink.split("/")[1]
@@ -26,7 +27,7 @@ export default new Event(
                             await w.send(m.content, {
                                 embeds: embeds,
                                 files: m.attachments.map(a => a),
-                                username: m.member?.displayName,
+                                username: m.member?.displayName ?? m.author.username,
                                 avatarURL: m.author.avatarURL() ?? undefined
                             }).then(async (m: Message) => {
                                 let msg_1 = m
