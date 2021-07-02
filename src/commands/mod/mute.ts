@@ -47,7 +47,7 @@ export default new Command(
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${reason}", "${ctx.author.id}")`)
 				} else {
 					const resEdit = res[0]
-					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "/mute"}" WHERE id = "${m.id}"`)
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "▪mute"}" WHERE id = "${m.id}"`)
 				}
 			})
 			query(`SELECT * FROM mute WHERE id = "${m.id}" AND guild = "${ctx.guild?.id}"`, (err: MysqlError|null, res: mute[]) => {

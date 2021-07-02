@@ -43,7 +43,7 @@ export default new Command(
 				query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${member.id}", "${ctx.guild?.id}", "warn", "${reason}", "${ctx.author.id}")`)
 			} else {
 				const resEdit = res[0]
-				query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "/warn"}" WHERE id = "${member.id}"`)
+				query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "▪warn"}" WHERE id = "${member.id}"`)
 			}
 		})
 		ctx.delete()

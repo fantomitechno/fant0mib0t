@@ -79,7 +79,7 @@ export default new Command(
 		    	description: `${member} have been succefuly unwarned on ${ctx.guild?.name}`,
                 color: "GREEN"
 		    })
-			query(`UPDATE casier SET guilds = "${guilds.join("/")}", reasons = "${reasons.join("/")}",  mods = "${mods.join("/")}", type = "${types.join("/")}" WHERE id = "${member.id}"`, (err: MysqlError|null, _: any) => {
+			query(`UPDATE casier SET guilds = "${guilds.join("▪")}", reasons = "${reasons.join("▪")}",  mods = "${mods.join("▪")}", type = "${types.join("▪")}" WHERE id = "${member.id}"`, (err: MysqlError|null, _: any) => {
 				if (err) return console.log(err)
 			})
             ctx.delete()

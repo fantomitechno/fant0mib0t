@@ -52,7 +52,7 @@ export default new Command(
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "tempmute", "${reason}", "${ctx.author.id}")`)
 				} else {
 					const resEdit = res[0]
-					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "/tempmute"}" WHERE id = "${m.id}"`)
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "▪tempmute"}" WHERE id = "${m.id}"`)
 				}
                 query(`INSERT INTO temp (id, guild, type, date, time) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${Date.now()}", "${time}")`)
 			})
