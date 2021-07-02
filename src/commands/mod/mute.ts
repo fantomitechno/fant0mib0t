@@ -24,7 +24,7 @@ export default new Command(
         let mutedRole = ctx.guild?.roles.cache.find(r => r.name.toLowerCase().includes("mute") && !r.managed)?.id ?? "0"
 		let reason = ctx.args.slice(1).join(' ')
 		if (!reason.length) reason = "Non specified"
-		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
+		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `▪`')
 		const embedBanned = new BetterEmbed({
 			title: "You were muted on "+ ctx.guild?.name ?? "None, wait what ?",
 			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`",
@@ -47,7 +47,7 @@ export default new Command(
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${reason}", "${ctx.author.id}")`)
 				} else {
 					const resEdit = res[0]
-					query(`UPDATE casier SET guilds = "${resEdit.guilds + "/" + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + "/" + reason}",  mods = "${resEdit.mods + "/" + ctx.author.id}", type = "${resEdit.type + "/mute"}" WHERE id = "${m.id}"`)
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "/mute"}" WHERE id = "${m.id}"`)
 				}
 			})
 			query(`SELECT * FROM mute WHERE id = "${m.id}" AND guild = "${ctx.guild?.id}"`, (err: MysqlError|null, res: mute[]) => {

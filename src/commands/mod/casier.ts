@@ -24,10 +24,10 @@ export default new Command(
             if (err) return console.log(err)
             if (!res.length) return ctx.send(`${member?.user.tag} has no case`)
             const resEdit = res[0]
-            const guilds = resEdit.guilds.split('/')
-            const reasons = resEdit.reasons.toString().split('/')
-            const mods = resEdit.mods.split('/')
-            const types = resEdit.type.split('/')
+            const guilds = resEdit.guilds.split('▪')
+            const reasons = resEdit.reasons.toString().split('▪')
+            const mods = resEdit.mods.split('▪')
+            const types = resEdit.type.split('▪')
             if (!ctx.guild) return
 
             

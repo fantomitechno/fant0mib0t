@@ -34,10 +34,10 @@ export default new Command(
             const casier: any = {}
             
             const resEdit = res[0]
-            let guilds = resEdit.guilds.split('/')
-            let reasons = resEdit.reasons.toString().split('/')
-            let mods = resEdit.mods.split('/')
-            let types = resEdit.type.split('/')
+            let guilds = resEdit.guilds.split('▪')
+            let reasons = resEdit.reasons.toString().split('▪')
+            let mods = resEdit.mods.split('▪')
+            let types = resEdit.type.split('▪')
 
             for (const guild of guilds) {
                 casier[guild] = {

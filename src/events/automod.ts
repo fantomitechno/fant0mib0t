@@ -88,7 +88,7 @@ const Mod = async (message: Message, handler: typeof CommandHandler, reason: str
             query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${message.member?.id}", "${message.guild?.id}", "warn", "${reason}", "${handler.client?.user?.id}")`)
         } else {
             res = res[0]
-            query(`UPDATE casier SET guilds = "${res.guilds + "/" + message.guild?.id}", reasons = "${(res.reasons).toString() + "/" + reason}",  mods = "${res.mods + "/" + handler.client?.user?.id}", type = "${res.type + "/warn"}" WHERE id = "${message.member?.id}"`)
+            query(`UPDATE casier SET guilds = "${res.guilds + '▪' + message.guild?.id}", reasons = "${(res.reasons).toString() + '▪' + reason}",  mods = "${res.mods + '▪' + handler.client?.user?.id}", type = "${res.type + "/warn"}" WHERE id = "${message.member?.id}"`)
         }
     })
     message.channel.send(embedBanner)

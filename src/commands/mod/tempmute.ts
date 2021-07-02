@@ -29,7 +29,7 @@ export default new Command(
         if (time > convertTime("10y")) return ctx.reply('Wow keep calm, it\'s too big')
 		let reason = ctx.args.slice(2).join(' ')
 		if (!reason.length) reason = "Non specified"
-		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `/`')
+		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `▪`')
 		const embedBanned = new BetterEmbed({
 			title: "You were tempmuted on "+ ctx.guild?.name ?? "None, wait what ?",
 			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`\nTime: "+ ctx.args[1],
@@ -52,7 +52,7 @@ export default new Command(
 					query(`INSERT INTO casier (id, guilds, type, reasons, mods) VALUES ("${m.id}", "${ctx.guild?.id}", "tempmute", "${reason}", "${ctx.author.id}")`)
 				} else {
 					const resEdit = res[0]
-					query(`UPDATE casier SET guilds = "${resEdit.guilds + "/" + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + "/" + reason}",  mods = "${resEdit.mods + "/" + ctx.author.id}", type = "${resEdit.type + "/tempmute"}" WHERE id = "${m.id}"`)
+					query(`UPDATE casier SET guilds = "${resEdit.guilds + '▪' + ctx.guild?.id}", reasons = "${(resEdit.reasons).toString() + '▪' + reason}",  mods = "${resEdit.mods + '▪' + ctx.author.id}", type = "${resEdit.type + "/tempmute"}" WHERE id = "${m.id}"`)
 				}
                 query(`INSERT INTO temp (id, guild, type, date, time) VALUES ("${m.id}", "${ctx.guild?.id}", "mute", "${Date.now()}", "${time}")`)
 			})
