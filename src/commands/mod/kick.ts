@@ -24,7 +24,7 @@ export default new Command(
 		if (!member.user.bot && member.hasPermission('KICK_MEMBERS') && !ctx.member?.hasPermission('ADMINISTRATOR')) return ctx.send('Sorry but you tried to kick a moderator not bot')
 		let reason = ctx.args.slice(1).join(' ')
 		if (!reason.length) reason = "Non specified"
-		if (reason.includes('/')) return ctx.send('Sorry but your reason contain an unautorised caracter : `▪`')
+		if (reason.includes('▪')) return ctx.send('Sorry but your reason contain an unautorised caracter : `▪`')
 		const embedBanned = new BetterEmbed({
 			title: "You were kicked from "+ ctx.guild?.name ?? "None, wait what ?",
 			description: "<a:banhammer:844881353841442826> Reason : `" + reason +"`",
