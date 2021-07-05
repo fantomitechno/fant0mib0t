@@ -28,10 +28,10 @@ export default new Event(
                 Mod(message, handler, `Tried to send a link to another discord | Automated warn`)
             })
         }
-        if (config.automod.uppercase && message.content.length > 6 && countUpperCase(message.content)/(message.content.match(/[A-z]/g) ?? []).length > 0.80) {
+        if (config.automod.uppercase && message.content.length > 10 && countUpperCase(message.content)/(message.content.match(/[A-z]/g) ?? []).length > 0.80) {
             Mod(message, handler, `Too much uppercase | Automated warn`)
         }
-        const regexp = /(\S+)([\t ]*)(?:\1\2?){5,}/g
+        const regexp = /(\S+)([\t ]*)(?:\1\2?){7,}/g
         if (config.automod.dupplicated && regexp.test(message.content.toLowerCase()) && message.content.length > 5) {
             Mod(message, handler, `Mass duplicated characters | Automated warn`)
         }
@@ -56,9 +56,9 @@ export default new Event(
                 spam2[message.author.id] = [spam2[message.author.id][0] + 1, spam2[message.author.id][1]]
             }
 
-            if (spam[message.author.id] && spam[message.author.id] > 2) {
+            if (spam[message.author.id] && spam[message.author.id] > 3) {
                 Mod(message, handler, `Spam of "${message.content}" | Automated warn`)
-            } else if (spam2[message.author.id] && spam2[message.author.id] > 2) {
+            } else if (spam2[message.author.id] && spam2[message.author.id] > 3) {
                 Mod(message, handler, `Spam of multiple messages | Automated warn`)
             }
         }
