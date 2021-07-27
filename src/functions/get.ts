@@ -1,4 +1,4 @@
-import { Guild, Message, NewsChannel, Role, TextChannel, Webhook } from "discord.js";
+import { Guild, Message, Role, TextChannel } from "discord.js";
 const { findBestMatch } = require('string-similarity')
 
 export const getRole = (message: Message, string: string) => {
