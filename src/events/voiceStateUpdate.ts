@@ -36,9 +36,10 @@ export default new Event(
                         }
                     }
                 }
-                const randomName = await fetch("https://randommer.io/api/Name?nameType=surname&quantity=1", {method: "GET", headers: {'X-Api-Key': "0e254703707f443390ec5d75dc1b1c1b"}}).then(async res => await res.json())
+                const randomName = await fetch("https://randommer.io/api/Name?nameType=surname&quantity=1", {method: "GET", headers: {'X-Api-Key': "ff1baedbfc5140f19e7e17eea7b2bf91"}}).then(async res => await res.json())
                 if(newState.channel === channel){
                     let random = Math.floor(Math.random() * 100) + 1
+                    console.log(randomName)
                     let name = `🔊 ${randomName[0]} #${random}`
                     if (random === 59) {
                         name = `🍻 ${asterix[Math.floor(Math.random() * asterix.length)]} 🍗 #${random}`
