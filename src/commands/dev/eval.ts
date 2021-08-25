@@ -1,6 +1,6 @@
 import { Command, CommandHandler, getThing, BetterEmbed, Tag } from 'advanced-command-handler'
 import { transpile } from 'typescript'
-import { Context } from '../../class/Context'
+import { Context } from '../../utils/class/Context'
 import util from "util"
 
 

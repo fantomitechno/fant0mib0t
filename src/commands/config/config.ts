@@ -1,10 +1,10 @@
 import { BetterEmbed, Command, CommandHandler } from 'advanced-command-handler';
 import { Message } from 'discord.js';
 import { MysqlError } from 'mysql';
-import { Context } from '../../class/Context';
-import { query } from '../../functions/db';
-import { Config } from '../../type/Config';
-import { SConfig } from '../../type/Database';
+import { Context } from '../../utils/class/Context';
+import { query } from '../../utils/functions/db';
+import { Config } from '../../utils/type/Config';
+import { SConfig } from '../../utils/type/Database';
 
 
 export default new Command(

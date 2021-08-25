@@ -1,6 +1,6 @@
 import { Command, CommandHandler, getThing, BetterEmbed, Tag } from 'advanced-command-handler'
-import { Context } from '../../class/Context'
-import { help } from "../../JSON/config.json"
+import { Context } from '../../utils/class/Context'
+import { help } from "../../utils/JSON/config.json"
 
 
 export default new Command(

@@ -1,5 +1,5 @@
 import { CommandHandler } from 'advanced-command-handler'
-import config from './JSON/config.json'
+import config from './utils/JSON/config.json'
 
 process.chdir('out')
 

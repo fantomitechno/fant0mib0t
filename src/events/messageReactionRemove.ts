@@ -1,8 +1,8 @@
 import { CommandHandler, Event } from 'advanced-command-handler'
 import { MessageReaction, User } from 'discord.js'
 import { MysqlError } from 'mysql'
-import { query } from '../functions/db'
-import { autorole } from '../type/Database'
+import { query } from '../utils/functions/db'
+import { autorole } from '../utils/type/Database'
 
 export default new Event(
     {

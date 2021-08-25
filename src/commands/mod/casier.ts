@@ -1,10 +1,10 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { GuildMember } from 'discord.js'
 import { MysqlError } from 'mysql'
-import { Context } from '../../class/Context'
-import { query } from '../../functions/db'
-import { getUserFromMention } from '../../functions/get'
-import { casier } from '../../type/Database'
+import { Context } from '../../utils/class/Context'
+import { query } from '../../utils/functions/db'
+import { getUserFromMention } from '../../utils/functions/get'
+import { casier } from '../../utils/type/Database'
 
 
 export default new Command(

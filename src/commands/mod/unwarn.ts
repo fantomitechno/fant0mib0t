@@ -1,10 +1,10 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { MysqlError } from 'mysql'
-import { Context } from '../../class/Context'
-import { query } from '../../functions/db'
-import { getUserFromMention } from '../../functions/get'
-import { sendToModLogs } from '../../functions/logging'
-import { casier } from '../../type/Database'
+import { Context } from '../../utils/class/Context'
+import { query } from '../../utils/functions/db'
+import { getUserFromMention } from '../../utils/functions/get'
+import { sendToModLogs } from '../../utils/functions/logging'
+import { casier } from '../../utils/type/Database'
 
 const typesWarn: any = {"bans": "ban", "kicks": "kick", "mutes": "mute", "warns": "warn"}
 export default new Command(

@@ -1,9 +1,9 @@
 import { BetterEmbed, Command, CommandHandler, Tag } from 'advanced-command-handler';
 import { MysqlError } from 'mysql';
-import { Context } from '../../class/Context';
-import { query } from '../../functions/db';
-import { getRole } from '../../functions/get';
-import { selfrole } from '../../type/Database';
+import { Context } from '../../utils/class/Context';
+import { query } from '../../utils/functions/db';
+import { getRole } from '../../utils/functions/get';
+import { selfrole } from '../../utils/type/Database';
 
 
 export default new Command(

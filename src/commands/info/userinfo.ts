@@ -1,12 +1,12 @@
 import { Command, CommandHandler, Tag } from 'advanced-command-handler'
 import { GuildMember, MessageAttachment, MessageEmbed, Role } from 'discord.js'
-import { getUser } from '../../functions/get'
-import { drawCircle, drawEmoji, getImgCache, rectRounded } from '../../functions/canvas'
-import { textLimiter } from '../../functions/string'
+import { getUser } from '../../utils/functions/get'
+import { drawCircle, drawEmoji, getImgCache, rectRounded } from '../../utils/functions/canvas'
+import { textLimiter } from '../../utils/functions/string'
 import { convert } from 'twemoji'
 import moment from 'moment'
 import Canvas from 'canvas'
-import { Context } from '../../class/Context'
+import { Context } from '../../utils/class/Context'
 
 export default new Command(
 	{

@@ -1,6 +1,6 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
-import { Context } from '../../class/Context'
-import { sendToModLogs } from '../../functions/logging'
+import { Context } from '../../utils/class/Context'
+import { sendToModLogs } from '../../utils/functions/logging'
 
 
 export default new Command(

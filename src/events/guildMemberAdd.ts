@@ -1,8 +1,8 @@
 import { CommandHandler, Event } from 'advanced-command-handler'
 import { GuildMember } from 'discord.js'
 import { MysqlError } from 'mysql'
-import { query } from '../functions/db'
-import { mute } from '../type/Database'
+import { query } from '../utils/functions/db'
+import { mute } from '../utils/type/Database'
 
 export default new Event(
     {

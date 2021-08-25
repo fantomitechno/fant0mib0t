@@ -1,9 +1,9 @@
 import { Command, CommandHandler, Tag } from 'advanced-command-handler'
 import { MysqlError } from 'mysql';
-import { Context } from '../../class/Context';
-import { query } from '../../functions/db';
-import { getWebhook } from '../../functions/get';
-import { SConfig } from '../../type/Database';
+import { Context } from '../../utils/class/Context';
+import { query } from '../../utils/functions/db';
+import { getWebhook } from '../../utils/functions/get';
+import { SConfig } from '../../utils/type/Database';
 
 
 export default new Command(

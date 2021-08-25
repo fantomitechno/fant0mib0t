@@ -1,10 +1,10 @@
 import {Message} from 'discord.js';
 import {Event, CommandHandler, getThing, permissionsError, Tag, Logger, argError, codeError} from 'advanced-command-handler'
-import {Context} from "../class/Context"
-import {query} from "../functions/db"
+import {Context} from "../utils/class/Context"
+import {query} from "../utils/functions/db"
 import { MysqlError } from 'mysql';
-import { Config } from '../type/Config';
-import { SConfig } from '../type/Database';
+import { Config } from '../utils/type/Config';
+import { SConfig } from '../utils/type/Database';
 
 export default new Event(
 	{

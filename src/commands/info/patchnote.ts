@@ -1,6 +1,6 @@
 import { BetterEmbed, Command, CommandHandler } from 'advanced-command-handler';
-import { Context } from '../../class/Context';
-require('../../JSON/patchnote.json')
+import { Context } from '../../utils/class/Context';
+require('../../utils/JSON/patchnote.json')
 
 type patchnote = {
     latest: {
@@ -25,7 +25,7 @@ export default new Command(
         aliases: ["pn","patch", "versions"]
 	},
 	async (handler: typeof CommandHandler, ctx: Context) => {
-        let patchnote: patchnote = require('../../JSON/patchnote.json')
+        let patchnote: patchnote = require('../../utils/JSON/patchnote.json')
         let versions = patchnote.releases.map(m => m.id)
 		if (ctx.args[0] === "list") {
             const embed = new BetterEmbed({

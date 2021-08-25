@@ -1,9 +1,9 @@
 import { CommandHandler, Event, Logger } from 'advanced-command-handler'
 import { MysqlError } from 'mysql';
-import { presence, database } from '../JSON/config.json'
-import { query } from '../functions/db';
-import { sendToModLogs } from '../functions/logging';
-import { autorole, mute, temp } from '../type/Database';
+import { presence, database } from '../utils/JSON/config.json'
+import { query } from '../utils/functions/db';
+import { sendToModLogs } from '../utils/functions/logging';
+import { autorole, mute, temp } from '../utils/type/Database';
 import { GuildChannel } from 'discord.js';
 
 export default new Event(

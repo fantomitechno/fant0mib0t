@@ -1,7 +1,7 @@
 import { CommandHandler, Event } from 'advanced-command-handler'
 import { MysqlError } from 'mysql'
-import { query } from '../functions/db'
-import { rss } from '../type/Database'
+import { query } from '../utils/functions/db'
+import { rss } from '../utils/type/Database'
 
 export default new Event(
     {

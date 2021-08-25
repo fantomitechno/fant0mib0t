@@ -1,7 +1,7 @@
 import { Command, CommandHandler, BetterEmbed, Tag } from 'advanced-command-handler'
 import { GuildChannel } from 'discord.js';
-import { Context } from '../../class/Context'
-import { query } from '../../functions/db';
+import { Context } from '../../utils/class/Context'
+import { query } from '../../utils/functions/db';
 
 
 export default new Command(

@@ -1,12 +1,12 @@
 import { CommandHandler, Event } from 'advanced-command-handler'
 import { VoiceState } from 'discord.js'
 import { MysqlError } from 'mysql'
-import { query } from '../functions/db'
-import { Config } from '../type/Config'
-import { SConfig } from '../type/Database'
+import { query } from '../utils/functions/db'
+import { Config } from '../utils/type/Config'
+import { SConfig } from '../utils/type/Database'
 import fetch from 'node-fetch'
-import asterix from '../JSON/asterix.json'
-import fox from "../JSON/fox.json"
+import asterix from '../utils/JSON/asterix.json'
+import fox from "../utils/JSON/fox.json"
 
 export default new Event(
     {
@@ -36,11 +36,10 @@ export default new Event(
                         }
                     }
                 }
-                const randomName = await fetch("https://randommer.io/api/Name?nameType=surname&quantity=1", {method: "GET", headers: {'X-Api-Key': "ff1baedbfc5140f19e7e17eea7b2bf91"}}).then(async res => await res.json())
+                const randomName = (await fetch("https://randomuser.me/api/?inc=name&nat=gb", {method: "GET"}).then(async res => await res.json())).results[0].name.first
                 if(newState.channel === channel){
                     let random = Math.floor(Math.random() * 100) + 1
-                    console.log(randomName)
-                    let name = `🔊 ${randomName[0]} #${random}`
+                    let name = `🔊 ${randomName} #${random}`
                     if (random === 59) {
                         name = `🍻 ${asterix[Math.floor(Math.random() * asterix.length)]} 🍗 #${random}`
                         newState.member?.send(`You finded a secret voice channel : \`${name}\``)

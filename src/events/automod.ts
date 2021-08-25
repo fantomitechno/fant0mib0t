@@ -2,10 +2,10 @@ import { BetterEmbed, CommandHandler, Event } from 'advanced-command-handler'
 import { Message } from 'discord.js'
 import { MysqlError } from 'mysql'
 import fetch from "node-fetch"
-import { query } from '../functions/db'
-import { sendToModLogs } from '../functions/logging'
-import { countUpperCase } from '../functions/string'
-import { Config } from '../type/Config'
+import { query } from '../utils/functions/db'
+import { sendToModLogs } from '../utils/functions/logging'
+import { countUpperCase } from '../utils/functions/string'
+import { Config } from '../utils/type/Config'
 
 let spam: any = {}
 let spam2: any = {}

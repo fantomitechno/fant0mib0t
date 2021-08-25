@@ -1,6 +1,6 @@
 import { BetterEmbed, CommandHandler, Event } from 'advanced-command-handler'
 import { Message, MessageEmbed, NewsChannel, TextChannel } from 'discord.js'
-import { getWebhook } from '../functions/get'
+import { getWebhook } from '../utils/functions/get'
 
 export default new Event(
     {

@@ -1,5 +1,5 @@
 import { Command, CommandHandler } from 'advanced-command-handler';
-import { Context } from '../../class/Context';
+import { Context } from '../../utils/class/Context';
 
 
 export default new Command(

@@ -1,6 +1,6 @@
 import { BetterEmbed, Command, CommandHandler } from 'advanced-command-handler';
-import { Context } from '../../class/Context';
-import { visuelTime } from '../../functions/string';
+import { Context } from '../../utils/class/Context';
+import { visuelTime } from '../../utils/functions/string';
 
 
 export default new Command(

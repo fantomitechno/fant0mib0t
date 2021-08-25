@@ -1,7 +1,7 @@
 import { BetterEmbed, Command, CommandHandler } from 'advanced-command-handler';
 import { Message, NewsChannel, TextChannel } from 'discord.js';
-import { Context } from '../../class/Context';
-import { getChannel, getWebhook } from '../../functions/get';
+import { Context } from '../../utils/class/Context';
+import { getChannel, getWebhook } from '../../utils/functions/get';
 
 
 export default new Command(
