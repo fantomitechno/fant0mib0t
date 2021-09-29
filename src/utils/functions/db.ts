@@ -1,10 +1,10 @@
-import mysql from "mysql"
-import { database } from "../JSON/config.json"
+import mysql from 'mysql';
+import {database} from '../JSON/config.json';
 
-let db = mysql.createConnection(database)
+let db = mysql.createConnection(database);
 
-db.connect()
+db.connect();
 
 export const query = (query: any, fonction?: Function) => {
-    return db.query(query, fonction)
-}
+	return db.query(query, fonction);
+};

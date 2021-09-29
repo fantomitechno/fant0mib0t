@@ -3,8 +3,8 @@ import {readdirSync} from 'fs';
 import {Command, Event} from './index';
 import {SubCommand} from './Command';
 import {BotOptions} from '../types/Bot';
-import { createConnection } from 'mysql';
-import { Logger } from './Logger';
+import {createConnection} from 'mysql';
+import {Logger} from './Logger';
 
 export function propertyInEnum<V extends {[k: string]: any}>(enumObject: V, property: string): keyof V | undefined {
 	return enumObject[property] ?? undefined;
@@ -39,24 +39,24 @@ export class Bot extends Client {
 		database: process.env.DB_DB,
 		host: process.env.DB_HOST,
 		user: process.env.DB_USER,
-		password: process.env.DB_PASS
-	})
+		password: process.env.DB_PASS,
+	});
 
-	dbOnline = false
+	dbOnline = false;
 
 	async launchDB() {
 		try {
-			Logger.info("DB CONNECTION")
-			this.database.connect()
-			this.dbOnline = true
+			Logger.info('DB CONNECTION');
+			this.database.connect();
+			this.dbOnline = true;
 		} catch (error) {
-			Logger.error(error, "DB CONNECTION")
+			Logger.error(error, 'DB CONNECTION');
 		}
 	}
-	
+
 	query = (query: string, fonction?: Function) => {
-		return this.database.query(query, fonction)
-	}
+		return this.database.query(query, fonction);
+	};
 
 	async launchHandler() {
 		const pathEvent: string = 'events/';
@@ -103,7 +103,7 @@ export class Bot extends Client {
 	async launch() {
 		await this.launchHandler();
 
-		await this.launchDB()
+		await this.launchDB();
 
 		if (this.inDev) {
 			// Launch the Developpement bot

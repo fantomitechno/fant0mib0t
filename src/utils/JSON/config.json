@@ -1,59 +1,67 @@
 {
-    "shards": 1,
-    "presence": {
-        "activated": true,
-        "list": [
-            {
-                "activities": [{
-                    "name": "with command blocks",
-                    "type": "PLAYING",
-                    "url": "https://twitch.tv/fantomitechno"
-                    }],
-                "status": "online"
-            },
-            {
-                "activities": [{
-                    "name": "Discord's changes",
-                    "type": "WATCHING",
-                    "url": "https://twitch.tv/fantomitechno"
-                    }],
-                "status": "dnd"
-            },
-            {
-                "activities": [{
-                    "name": "music along fantomitechno",
-                    "type": "LISTENING",
-                    "url": "https://twitch.tv/fantomitechno"
-                    }],
-                "status": "idle"
-            },
-            {
-                "activities": [{
-                    "name": "a WereWolf game ft NewGlace",
-                    "type": "STREAMING",
-                    "url": "https://twitch.tv/fantomitechno"
-                    }],
-                "status": "online"
-            }
-        ],
-        "time": 600000
-    },
-    "help": {
-        "category": [
-            ["<a:owochat:845611543910678549>・Roles", "role"],
-            ["🗨️・Messages", "message"],
-            ["<a:banhammer:844881353841442826>・Moderation", "mod"],
-            ["<:Information:844834479713681448>・Information", "info"],
-            ["<:config:847453955033399338>・Configuration", "config"],
-            ["<:badgedev:845581661713465355>・Dev commands", "dev"]
-        ]
-    },
-    "perm": "8",
-    "support": {
-        "server": "http://discord.gg/x9BMZ6z"
-    },
-    "emojis": {
-        "succes": "✅",
-        "fail": "❌"
-    }
+	"shards": 1,
+	"presence": {
+		"activated": true,
+		"list": [
+			{
+				"activities": [
+					{
+						"name": "with command blocks",
+						"type": "PLAYING",
+						"url": "https://twitch.tv/fantomitechno"
+					}
+				],
+				"status": "online"
+			},
+			{
+				"activities": [
+					{
+						"name": "Discord's changes",
+						"type": "WATCHING",
+						"url": "https://twitch.tv/fantomitechno"
+					}
+				],
+				"status": "dnd"
+			},
+			{
+				"activities": [
+					{
+						"name": "music along fantomitechno",
+						"type": "LISTENING",
+						"url": "https://twitch.tv/fantomitechno"
+					}
+				],
+				"status": "idle"
+			},
+			{
+				"activities": [
+					{
+						"name": "a WereWolf game ft NewGlace",
+						"type": "STREAMING",
+						"url": "https://twitch.tv/fantomitechno"
+					}
+				],
+				"status": "online"
+			}
+		],
+		"time": 600000
+	},
+	"help": {
+		"category": [
+			["<a:owochat:845611543910678549>・Roles", "role"],
+			["🗨️・Messages", "message"],
+			["<a:banhammer:844881353841442826>・Moderation", "mod"],
+			["<:Information:844834479713681448>・Information", "info"],
+			["<:config:847453955033399338>・Configuration", "config"],
+			["<:badgedev:845581661713465355>・Dev commands", "dev"]
+		]
+	},
+	"perm": "8",
+	"support": {
+		"server": "http://discord.gg/x9BMZ6z"
+	},
+	"emojis": {
+		"succes": "✅",
+		"fail": "❌"
+	}
 }

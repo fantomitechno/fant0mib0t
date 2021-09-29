@@ -1,20 +1,16 @@
 import {Bot} from './utils/class';
 import {Logger} from './utils/class';
-import mysql from "mysql"
+import mysql from 'mysql';
 
-require("dotenv").config()
+require('dotenv').config();
 
 export const client = new Bot(
 	{
-		devs: ["563749920683720709"],
+		devs: ['563749920683720709'],
 		inDev: true,
 	},
 	{
-		intents: [
-			'GUILDS',
-			'GUILD_MESSAGES',
-			'GUILD_MEMBERS'
-		],
+		intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS'],
 		restTimeOffset: 50,
 	}
 );

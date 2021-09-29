@@ -1,10 +1,10 @@
-import { PresenceData, TextChannel } from 'discord.js';
+import {PresenceData, TextChannel} from 'discord.js';
 import {Command, Event, Bot, Logger} from '../utils/class/index';
-import {presence} from '../utils/JSON/config.json'
+import {presence} from '../utils/JSON/config.json';
 
 export default new Event('ready', async (client: Bot) => {
 	const guilds = [
-		client.guilds.cache.get(`697788133609046058`) //This is my testing guild
+		client.guilds.cache.get(`697788133609046058`), //This is my testing guild
 	];
 	Logger.log(`${client.user?.username} launched in ${Date.now() - client.launchedAt}ms !`);
 
@@ -33,7 +33,8 @@ export default new Event('ready', async (client: Bot) => {
 								permission: true,
 							},
 						],
-					}).catch(_ => _);
+					})
+					.catch(_ => _);
 			}
 		}
 	} else {
@@ -51,26 +52,26 @@ export default new Event('ready', async (client: Bot) => {
 							},
 						],
 						guild: guild,
-					}).catch(_ => _);
+					})
+					.catch(_ => _);
 			}
 		}
 	}
 	Logger.info('Cache', 'SETUP');
-	for (const guild of client.guilds.cache.map(m =>m)) {
-        await guild?.members.fetch()
+	for (const guild of client.guilds.cache.map(m => m)) {
+		await guild?.members.fetch();
 	}
 	Logger.info('Done', 'SETUP');
-	let status = (presence.list[0] as PresenceData)
-    client.user?.setPresence(status)
-    let i = 1
-    setInterval(() => {
-        status = (presence.list[i] as PresenceData)
-        client.user?.setPresence(status)
-        i ++
-        if (i === presence.list.length) i = 0
-    },
-    presence.time)
+	let status = presence.list[0] as PresenceData;
+	client.user?.setPresence(status);
+	let i = 1;
+	setInterval(() => {
+		status = presence.list[i] as PresenceData;
+		client.user?.setPresence(status);
+		i++;
+		if (i === presence.list.length) i = 0;
+	}, presence.time);
 
-	const verify = client.inDev ? "829407613204299797" : "829741063941521488";
-	(client.channels.cache.get(verify) as TextChannel).messages.fetch()
+	const verify = client.inDev ? '829407613204299797' : '829741063941521488';
+	(client.channels.cache.get(verify) as TextChannel).messages.fetch();
 });
