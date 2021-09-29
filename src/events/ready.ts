@@ -1,123 +1,76 @@
-import { CommandHandler, Event, Logger } from 'advanced-command-handler'
-import { MysqlError } from 'mysql';
-import { presence, database } from '../utils/JSON/config.json'
-import { query } from '../utils/functions/db';
-import { sendToModLogs } from '../utils/functions/logging';
-import { autorole, mute, temp } from '../utils/type/Database';
-import { GuildChannel } from 'discord.js';
+import { PresenceData, TextChannel } from 'discord.js';
+import {Command, Event, Bot, Logger} from '../utils/class/index';
+import {presence} from '../utils/JSON/config.json'
 
-export default new Event(
-    {
-        name: 'ready'
+export default new Event('ready', async (client: Bot) => {
+	const guilds = [
+		client.guilds.cache.get(`697788133609046058`) //This is my testing guild
+	];
+	Logger.log(`${client.user?.username} launched in ${Date.now() - client.launchedAt}ms !`);
+
+	Logger.info('Commands', 'SETUP');
+	client.user?.setPresence({
+		status: 'dnd',
+		activities: [
+			{
+				name: 'Loading...',
+				type: 'PLAYING',
+			},
+		],
+	});
+
+	if (client.inDev) {
+		for (const guild of guilds) {
+			await guild?.commands.set(client.commands.filter(c => c instanceof Command).map(c => (c as Command).data)).catch(_ => _);
+			for (const cmd of client.commands.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
+				guild?.commands.cache
+					.find(c => c.name === cmd)
+					?.permissions.add({
+						permissions: [
+							{
+								id: '563749920683720709', //Fantomitechno
+								type: 'USER',
+								permission: true,
+							},
+						],
+					}).catch(_ => _);
+			}
+		}
+	} else {
+		await client.application?.commands.set(client.commands.filter(c => c instanceof Command).map(c => (c as Command).data));
+		for (const cmd of client.commands.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
+			for (const guild of client.guilds.cache.map(g => g.id)) {
+				client.application?.commands.cache
+					.find(c => c.name === cmd)
+					?.permissions.add({
+						permissions: [
+							{
+								id: '563749920683720709', //Fantomitechno
+								type: 'USER',
+								permission: true,
+							},
+						],
+						guild: guild,
+					}).catch(_ => _);
+			}
+		}
+	}
+	Logger.info('Cache', 'SETUP');
+	for (const guild of client.guilds.cache.map(m =>m)) {
+        await guild?.members.fetch()
+	}
+	Logger.info('Done', 'SETUP');
+	let status = (presence.list[0] as PresenceData)
+    client.user?.setPresence(status)
+    let i = 1
+    setInterval(() => {
+        status = (presence.list[i] as PresenceData)
+        client.user?.setPresence(status)
+        i ++
+        if (i === presence.list.length) i = 0
     },
+    presence.time)
 
-    async (handler: typeof CommandHandler): Promise<any> => {
-        function log() {
-            Logger.event(`Date : ${Logger.setColor('yellow', new Date().toString())}`);
-            Logger.event(`RAM used : ${Logger.setColor('magenta', (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2))} ` + Logger.setColor('magenta', 'MB'));
-        }
-        
-        Logger.event(
-            `Client online ! Client ${Logger.setColor('orange', handler.client?.user?.username)} has ${handler.client?.guilds.cache.size} guilds, it sees ${
-                handler.client?.users.cache.size
-            } users.`
-        )
-    
-        const user = handler?.client?.user
-    
-    
-        if (presence.activated) {
-            let status: any = presence.list[0]
-            user?.setPresence(status)
-            let i = 1
-            setInterval(() => {
-                status = presence.list[i]
-                user?.setPresence(status)
-                i ++
-                if (i === presence.list.length) i = 0
-            },
-            presence.time)
-        }
-
-        setInterval(() => {
-            query("SELECT *", () => {
-                log()
-            })
-        }, database.refresh_time)
-
-
-        setInterval( () => {
-            Logger.event(
-                `Starting temps loop..`
-            )
-            query("SELECT * FROM temp", (err: MysqlError, result: temp[]) => {
-                for (const res of result) {
-                    const timePassed = Date.now() - res.date
-                    if (timePassed >= res.time) {
-                        const guild = handler.client?.guilds.cache.get(res.guild)
-                        if (guild) {
-                            if (res.type === "ban") {
-                                guild.fetchBans().then(bans => {
-                                    let userBanned = bans.find(b => b.user.id === res.id)
-                                    if (!userBanned) return
-                                    guild.members.unban(userBanned.user).then(() => {
-                                        sendToModLogs(guild, `<a:banhammer:844881353841442826> ${userBanned?.user}`, "unban (auto)")
-                                    })
-                                })
-                            } else if (res.type === "mute") {
-                                let member = guild.members.cache.get(res.id)
-                                if (!member) return
-                                let mutedRole = guild?.roles.cache.find(r => r.name.toLowerCase().includes("mute") && !r.managed)?.id ?? "0"
-                                if (!member.roles.cache.has(mutedRole)) return
-                                query(`SELECT * FROM mute WHERE id = "${member.id}" AND guild = "${guild?.id}"`, (err: MysqlError|null, res: mute[]) => {
-                                    if (err) return console.log(err)
-                                    if (res.length) {
-                                        query(`DELETE FROM mute WHERE id = "${member?.id}" AND guild = "${guild?.id}"`)
-                                    }
-                                })
-                                member.roles.remove(mutedRole, "Automatic").then(async m => {
-                                    sendToModLogs(guild, `<a:banhammer:844881353841442826> ${member}`, "unmute (auto)")
-                                })
-                            }
-                        }
-                        query(`DELETE FROM temp WHERE id = "${res.id}" AND guild = "${res.guild}" AND type = "${res.type}" AND time = "${res.time}" AND date = "${res.date}"`)
-                    }
-                }
-            })
-            Logger.event(
-                `Temps loop ended`
-            )
-        }, 60000)
-
-        const autoRoleFetch = async() => {
-            Logger.event(`Fetching autorole..`)
-            query("SELECT * FROM autorole",(err: MysqlError, results: autorole[]) => {
-                if (!results.length) return
-                results.map((r: autorole) => {
-                    let server = handler.client?.guilds.cache.get(r.server_id)
-                    if (server) {
-                        let channel: GuildChannel|undefined = server.channels.cache.get(r.channel_id)
-                        if (channel?.isText()) {
-                            channel.messages.fetch(r.message_id).then((msg) => {
-                                msg
-                            }).catch((err: Error) => {
-                                Logger.error("An autorole has been removed")
-                                query("DELETE FROM autorole WHERE message_id = '"+r.message_id+"'")
-                            })
-                        }
-                    }
-                })
-            })
-            Logger.event(`Autorole are fetched`)
-        }
-
-        const rss = () => {
-            handler.client?.emit('rss')
-        }
-
-        setInterval(() => autoRoleFetch, 36000000)
-
-        autoRoleFetch()
-        log()
-    }
-)
+	const verify = client.inDev ? "829407613204299797" : "829741063941521488";
+	(client.channels.cache.get(verify) as TextChannel).messages.fetch()
+});

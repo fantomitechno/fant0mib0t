@@ -1,39 +1,23 @@
-import { CommandHandler } from 'advanced-command-handler'
-import config from './utils/JSON/config.json'
+import {Bot} from './utils/class';
+import {Logger} from './utils/class';
+import mysql from "mysql"
 
-process.chdir('out')
+require("dotenv").config()
 
-CommandHandler.create({
-    prefixes: [config.prefix],
-    commandsDir: 'commands',
-    eventsDir: 'events',
-    owners: ['563749920683720709', '528340380064677891']
-})
+export const client = new Bot(
+	{
+		devs: ["563749920683720709"],
+		inDev: true,
+	},
+	{
+		intents: [
+			'GUILDS',
+			'GUILD_MESSAGES',
+			'GUILD_MEMBERS'
+		],
+		restTimeOffset: 50,
+	}
+);
 
-CommandHandler.launch({
-    token: config.token,
-    clientOptions: {
-        ws: { 
-            intents: [
-                "GUILDS",
-                "GUILD_MEMBERS",
-                "GUILD_BANS",
-                "GUILD_EMOJIS",
-                "GUILD_INTEGRATIONS",
-                "GUILD_WEBHOOKS",
-                "GUILD_INVITES",
-                "GUILD_VOICE_STATES",
-                "GUILD_PRESENCES",
-                "GUILD_MESSAGES",
-                "GUILD_MESSAGE_REACTIONS",
-                "GUILD_MESSAGE_TYPING",
-                "DIRECT_MESSAGES",
-                "DIRECT_MESSAGE_REACTIONS",
-                "DIRECT_MESSAGE_TYPING"
-            ] 
-        },
-        restTimeOffset: 100,
-        disableMentions: 'everyone',
-        messageCacheMaxSize: 100
-    }
-})
+process.on('warning', error => Logger.error(`An error occurred. \n${error.stack}`));
+process.on('uncaughtException', error => Logger.error(`An error occurred. \n${error.stack}`));
