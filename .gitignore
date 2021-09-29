@@ -106,4 +106,3 @@ dist
 
 .vscode
 out/
-src/utils/JSON/config.json
