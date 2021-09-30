@@ -5,6 +5,7 @@ import {presence} from '../utils/JSON/config.json';
 export default new Event('ready', async (client: Bot) => {
 	const guilds = [
 		client.guilds.cache.get(`697788133609046058`), //This is my testing guild
+		client.guilds.cache.get(`820619530744365056`)
 	];
 	Logger.log(`${client.user?.username} launched in ${Date.now() - client.launchedAt}ms !`);
 
