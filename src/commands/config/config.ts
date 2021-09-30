@@ -17,7 +17,7 @@ export default new Command(
 			//} else {
 			//	config = res[0];
 			//}
-			const embed = new MessageEmbed({
+			let embed = new MessageEmbed({
 				title: `Configuration for ${interaction.guild?.name}`,
 				description: `<:Nothing:893175030534508545> **Automoderation:**
 <:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiLink: ${config.antilink ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
@@ -35,46 +35,57 @@ Select an option to see more in details its configuration and description`,
 				color: 'ORANGE',
 			});
 
-			const row = new MessageActionRow({
-				components: [
-					new MessageSelectMenu({
-						customId: `config-menu`,
-						placeholder: `Nothing selected`,
-						options: [
-							{
-								label: `AutoMod AntiLink`,
-								description: `Antilink feature`,
-								value: 'antilink',
-							},
-							{
-								label: `AutoMod AntiUpperCase`,
-								description: `AntiUpperCase feature`,
-								value: 'anitupper',
-							},
-							{
-								label: `AutoMod AntiSpam`,
-								description: `AntiSpam feature`,
-								value: 'antispam',
-							},
-							{
-								label: `AutoMod AntiDuplicated`,
-								description: `AntiDuplicated feature`,
-								value: 'antiduplicated',
-							},
-							{
-								label: `LinkPreview`,
-								description: `LinkPreview feature`,
-								value: 'linkpreview',
-							},
-							{
-								label: `DynamicVoice`,
-								description: `DynamicVoice feature`,
-								value: 'dynamicvoice',
-							},
-						],
-					}),
-				],
-			});
+			const row = [
+				new MessageActionRow({
+					components: [
+						new MessageSelectMenu({
+							customId: `config-menu`,
+							placeholder: `Nothing selected`,
+							options: [
+								{
+									label: `AutoMod AntiLink`,
+									description: `Antilink feature`,
+									value: 'antilink',
+								},
+								{
+									label: `AutoMod AntiUpperCase`,
+									description: `AntiUpperCase feature`,
+									value: 'anitupper',
+								},
+								{
+									label: `AutoMod AntiSpam`,
+									description: `AntiSpam feature`,
+									value: 'antispam',
+								},
+								{
+									label: `AutoMod AntiDuplicated`,
+									description: `AntiDuplicated feature`,
+									value: 'antiduplicated',
+								},
+								{
+									label: `LinkPreview`,
+									description: `LinkPreview feature`,
+									value: 'linkpreview',
+								},
+								{
+									label: `DynamicVoice`,
+									description: `DynamicVoice feature`,
+									value: 'dynamicvoice',
+								},
+							],
+						}),
+					],
+				}),
+				new MessageActionRow({
+					components: [
+						new MessageButton({
+							label: 'Close menu',
+							style: 'PRIMARY',
+							customId: 'close',
+						}),
+					]
+				})
+			];
 
 			const embeds = (bool: boolean, str: string): MessageEmbed => {
 				let description = '';
@@ -190,7 +201,24 @@ To change it or to return to the base menu use the buttons bellow`;
 							msg.delete();
 							col.stop();
 						} else if (i.customId === 'back') {
-							i.update({embeds: [embed], components: [row]});
+							embed = new MessageEmbed({
+								title: `Configuration for ${interaction.guild?.name}`,
+								description: `<:Nothing:893175030534508545> **Automoderation:**
+				<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiLink: ${config.antilink ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+				<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiUpperCase: ${config.anitupper ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+				<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiSpam: ${config.antispam ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+				<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiDuplicated: ${
+									config.antiduplicated ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'
+								}
+				
+				<:Nothing:893175030534508545> **LinkPreview:** ${config.linkpreview ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+				
+				<:Nothing:893175030534508545> **DynamicVoiceBase:** ${config.dynamicVoiceBase ? `<#${config.dynamicVoiceBase}` : 'Null'}
+				
+				Select an option to see more in details its configuration and description`,
+								color: 'ORANGE',
+							});
+							i.update({embeds: [embed], components: row});
 						}
 					}
 				}
