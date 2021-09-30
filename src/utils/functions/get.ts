@@ -119,7 +119,7 @@ export const getWebhook = async (guild: Guild) => {
 	const w = await guild.fetchWebhooks();
 	let webhook = w.map(w => w).find(w => w.name === 'fant0mib0t-webhook');
 	if (!webhook) {
-		const channel = guild.channels.cache.array().filter(c => c.isText())[0] as TextChannel | null;
+		const channel = guild.channels.cache.map(c => c).filter(c => c.isText())[0] as TextChannel | null;
 		await channel
 			?.createWebhook('fant0mib0t-webhook', {
 				avatar: guild.client?.user?.avatarURL() ?? undefined,
