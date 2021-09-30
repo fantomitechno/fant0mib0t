@@ -19,17 +19,17 @@ export default new Command(
 			//}
 			const embed = new MessageEmbed({
 				title: `Configuration for ${interaction.guild?.name}`,
-				description: `<:Nothing:845679792204021800>Automoderation:
-<:Nothing:845679792204021800><:Nothing:845679792204021800>AntiLink: ${config.antilink ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
-<:Nothing:845679792204021800><:Nothing:845679792204021800>AntiUpperCase: ${config.anitupper ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
-<:Nothing:845679792204021800><:Nothing:845679792204021800>AntiSpam: ${config.antispam ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
-<:Nothing:845679792204021800><:Nothing:845679792204021800>AntiDuplicated: ${
-					config.antiduplicated ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'
+				description: `<:Nothing:893175030534508545> **Automoderation:**
+<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiLink: ${config.antilink ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiUpperCase: ${config.anitupper ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiSpam: ${config.antispam ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+<:Nothing:893175030534508545> <:Nothing:893175030534508545> ・ AntiDuplicated: ${
+					config.antiduplicated ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'
 				}
 
-<:Nothing:845679792204021800>LinkPreview: ${config.linkpreview ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+<:Nothing:893175030534508545> **LinkPreview:** ${config.linkpreview ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-<:Nothing:845679792204021800>DynamicVoiceBase: ${config.dynamicVoiceBase ? `<#${config.dynamicVoiceBase}` : 'Null'}
+<:Nothing:893175030534508545> **DynamicVoiceBase:** ${config.dynamicVoiceBase ? `<#${config.dynamicVoiceBase}` : 'Null'}
 
 Select an option to see more in details its configuration and description`,
 				color: 'ORANGE',
@@ -76,58 +76,77 @@ Select an option to see more in details its configuration and description`,
 				],
 			});
 
-			const embeds = (bool: boolean) => {
-				return {
-					antilink: new MessageEmbed({
-						title: `Configuration for ${interaction.guild?.name}`,
-						description: `<:Nothing:845679792204021800>Informations:
-    The AntiLink feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send an invite link that is not allowed
-    <:Nothing:845679792204021800>Curent state: ${bool ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+			const embeds = (bool: boolean, str: string): MessageEmbed => {
+				let description = '';
+				switch (str) {
+					case 'antilink':
+						description = `<:Nothing:893175030534508545> Informations:
+The AntiLink feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send an invite link that is not allowed
+<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-    To change it or to return to the base menu use the buttons bellow`,
-					}),
-					anitupper: new MessageEmbed({
-						title: `Configuration for ${interaction.guild?.name}`,
-						description: `<:Nothing:845679792204021800>Informations:
-    The AntiUpperCase feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send a message with a lot of UpperCases
-    <:Nothing:845679792204021800>Curent state: ${bool ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+To change it or to return to the base menu use the buttons bellow`;
+						return new MessageEmbed({
+							title: `Configuration for ${interaction.guild?.name}`,
+							description,
+							color: "ORANGE"
+						});
+					case 'anitupper':
+						description = `<:Nothing:893175030534508545> Informations:
+The AntiUpperCase feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send a message with a lot of UpperCases
+<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-    To change it or to return to the base menu use the buttons bellow`,
-					}),
-					antispam: new MessageEmbed({
-						title: `Configuration for ${interaction.guild?.name}`,
-						description: `<:Nothing:845679792204021800>Informations:
-    The AntiSpam feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send a lot of messages in a close timing
-    <:Nothing:845679792204021800>Curent state: ${bool ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+To change it or to return to the base menu use the buttons bellow`;
+						return new MessageEmbed({
+							title: `Configuration for ${interaction.guild?.name}`,
+							description,
+							color: "ORANGE"
+						});
+					case 'antispam':
+						description = `<:Nothing:893175030534508545> Informations:
+The AntiSpam feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send a lot of messages in a close timing
+<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-    To change it or to return to the base menu use the buttons bellow`,
-					}),
-					antiduplicated: new MessageEmbed({
-						title: `Configuration for ${interaction.guild?.name}`,
-						description: `<:Nothing:845679792204021800>Informations:
-    The AntiDuplicated feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send message with a lot of the same caracters
-    <:Nothing:845679792204021800>Curent state: ${bool ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+To change it or to return to the base menu use the buttons bellow`;
+						return new MessageEmbed({
+							title: `Configuration for ${interaction.guild?.name}`,
+							description,
+							color: "ORANGE"
+						});
+					case 'antiduplicated':
+						description = `<:Nothing:893175030534508545> Informations:
+The AntiDuplicated feature, wich is in the Automoderation System of fant0mib0t, will warn everyone who will send message with a lot of the same caracters
+<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-    To change it or to return to the base menu use the buttons bellow`,
-					}),
-					linkpreview: new MessageEmbed({
-						title: `Configuration for ${interaction.guild?.name}`,
-						description: `<:Nothing:845679792204021800>Informations:
-    The LinkPreview feature will send, when someone send a discord message link, the recreation of the message
-    <:Nothing:845679792204021800>Curent state: ${bool ? '<:Check:803931708972990474>' : '<:Notcheck:803931708255895632>'}
+To change it or to return to the base menu use the buttons bellow`;
+						return new MessageEmbed({
+							title: `Configuration for ${interaction.guild?.name}`,
+							description,
+							color: "ORANGE"
+						});
+					case 'linkpreview':
+						description = `<:Nothing:893175030534508545> Informations:
+The LinkPreview feature will send, when someone send a discord message link, the recreation of the message
+<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
 
-    To change it or to return to the base menu use the buttons bellow`,
-					}),
-				};
+To change it or to return to the base menu use the buttons bellow`;
+						return new MessageEmbed({
+							title: `Configuration for ${interaction.guild?.name}`,
+							description,
+							color: "ORANGE"
+						});
+				}
+				return new MessageEmbed({
+					description: "wut"
+				})
 			};
 
-			const toogleRow = (bool: boolean) =>
+			const toogleRow = (bool: boolean, str: string) =>
 				new MessageActionRow({
 					components: [
 						new MessageButton({
 							label: bool ? 'Disable' : 'Activate',
 							style: bool ? 'DANGER' : 'SUCCESS',
-							customId: 'toogle',
+							customId: 'toogle-'+str,
 						}),
 						new MessageButton({
 							label: 'Close menu',
@@ -142,7 +161,7 @@ Select an option to see more in details its configuration and description`,
 					],
 				});
 
-			await interaction.reply({embeds: [embed], components: [row]});
+			await interaction.reply({embeds: [embed], components: row});
 			const msg = (await interaction.fetchReply()) as Message;
 
 			const col = msg.createMessageComponentCollector({
@@ -155,16 +174,16 @@ Select an option to see more in details its configuration and description`,
 					if (i.isSelectMenu()) {
 						if (i.customId !== 'dynamicvoice') {
 							const bool = (config as any)[i.customId] as boolean;
-							const embed = (embeds(bool) as any)[i.customId] as MessageEmbed;
-							const row = toogleRow(bool);
+							const embed = embeds(bool, i.values[0]);
+							const row = toogleRow(bool, i.values[0]);
 							i.update({embeds: [embed], components: [row]});
 						}
 					} else {
-						if (i.customId === 'toogle') {
+						if (i.customId.startsWith('toogle')) {
 							const bool = !((config as any)[i.customId] as boolean);
 							(config as any)[i.customId] = bool;
-							const embed = (embeds(bool) as any)[i.customId] as MessageEmbed;
-							const row = toogleRow(bool);
+							const embed = embeds(bool, i.customId.replace("toogle-", ""));
+							const row = toogleRow(bool, i.customId.replace("toogle-", ""));
 							i.update({embeds: [embed], components: [row]});
 						} else if (i.customId === 'close') {
 							i.deferUpdate();
