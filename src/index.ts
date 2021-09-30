@@ -1,6 +1,5 @@
 import {Bot} from './utils/class';
 import {Logger} from './utils/class';
-import mysql from 'mysql';
 
 require('dotenv').config();
 
