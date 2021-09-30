@@ -197,8 +197,7 @@ To change it or to return to the base menu use the buttons bellow`;
 							const row = toogleRow(bool, i.customId.replace("toogle-", ""));
 							i.update({embeds: [embed], components: [row]});
 						} else if (i.customId === 'close') {
-							i.deferUpdate();
-							msg.delete();
+							i.update({content: `Config menu was closed`, embeds: [], components: []})
 							col.stop();
 						} else if (i.customId === 'back') {
 							embed = new MessageEmbed({
