@@ -238,13 +238,23 @@ To change it or to return to the base menu use the buttons bellow`,
 							await i.reply({content: `Use /dynamicvoice <channel>`})
 							const reply = (await i.fetchReply() as Message)
 							const col = new InteractionCollector(client, {
-								channel: interaction.channel??undefined,
+								channel: interaction.channel ?? undefined,
 								interactionType: "APPLICATION_COMMAND"
 							})
-							if (client.inDev) {
-								interaction.guild?.commands.cache
-								.find(c => c.name === "dynamicvoice")
-								?.permissions.add({
+							interaction.guild?.commands.create({
+								name: 'dynamicvoice',
+								description: 'Configure the DynamicVoiceBase',
+								defaultPermission: false,
+								options: [
+									{
+										name: 'channel',
+										type: 'CHANNEL',
+										description: 'The channel you want',
+										required: true,
+									},
+								],
+							}).then(c => {
+								c.permissions.add({
 									permissions: [
 										{
 											id: interaction.user.id,
@@ -253,89 +263,59 @@ To change it or to return to the base menu use the buttons bellow`,
 										},
 									],
 								})
-								.catch(_ => _);
-							} else {
-								client.application?.commands.cache
-								.find(c => c.name === "dynamicvoice")
-								?.permissions.add({
-									permissions: [
-										{
-											id: interaction.user.id,
-											type: 'USER',
-											permission: true,
-										},
-									],
-									guild: interaction.guild?.id ?? "",
+								col.on("collect", async (cmd: CommandInteraction) => {
+									if (cmd.commandName !== "dynamicvoice") return
+									let channel = (cmd.options.getChannel("channel", true) as GuildChannel)
+									if (!channel.isVoice()) {
+										cmd.reply({content: `You have to choose a VoiceChannel`, ephemeral: true})
+									} else {
+										config.dynamicVoiceBase = channel.id
+										cmd.reply({content: `Config have been updated`})
+										col.stop()
+										const value = config.dynamicVoiceBase
+										const embed = new MessageEmbed({
+											title: `Configuration for ${interaction.guild?.name}`,
+											description: 
+			`<:Nothing:893175030534508545> Informations:
+			The DynamicVoiceBase channel will create, when anyone join it, a personal voice channel in its category
+			Creator has every perms on it and name and generate randomly with the help of an API. There's also some Easter Egg in the names. Go and find them all !
+			<:Nothing:893175030534508545> Curent state: ${value ? `<#${value}>` : 'Null'}
+	
+			To change it or to return to the base menu use the buttons bellow`,
+											color: "ORANGE" 
+										})
+										const row = new MessageActionRow({
+											components: [
+												new MessageButton({
+													label: 'Change the value',
+													style: "SUCCESS",
+													customId: "dynamicvoice"
+												}),
+												new MessageButton({
+													label: 'Reset value',
+													style: "DANGER",
+													customId: "resetvoice"
+												}),
+												new MessageButton({
+													label: 'Close menu',
+													style: 'PRIMARY',
+													customId: 'close',
+												}),
+												new MessageButton({
+													label: 'Go back',
+													style: 'SECONDARY',
+													customId: 'back',
+												}),
+											]
+										})
+										msg.edit({embeds: [embed], components: [row]})
+										reply.delete().catch(_ => _)
+									}
 								})
-								.catch(_ => _);
-							}
-							col.on("collect", async (cmd: CommandInteraction) => {
-								if (cmd.commandName !== "dynamicvoice") return
-								let channel = (cmd.options.getChannel("channel", true) as GuildChannel)
-								if (!channel.isVoice()) {
-									cmd.reply({content: `You have to choose a VoiceChannel`, ephemeral: true})
-								} else {
-									config.dynamicVoiceBase = channel.id
-									cmd.reply({content: `Config have been updated`})
-									col.stop()
-									const value = config.dynamicVoiceBase
-									const embed = new MessageEmbed({
-										title: `Configuration for ${interaction.guild?.name}`,
-										description: 
-		`<:Nothing:893175030534508545> Informations:
-		The DynamicVoiceBase channel will create, when anyone join it, a personal voice channel in its category
-		Creator has every perms on it and name and generate randomly with the help of an API. There's also some Easter Egg in the names. Go and find them all !
-		<:Nothing:893175030534508545> Curent state: ${value ? `<#${value}>` : 'Null'}
-
-		To change it or to return to the base menu use the buttons bellow`,
-										color: "ORANGE" 
-									})
-									const row = new MessageActionRow({
-										components: [
-											new MessageButton({
-												label: 'Change the value',
-												style: "SUCCESS",
-												customId: "dynamicvoice"
-											}),
-											new MessageButton({
-												label: 'Reset value',
-												style: "DANGER",
-												customId: "resetvoice"
-											}),
-											new MessageButton({
-												label: 'Close menu',
-												style: 'PRIMARY',
-												customId: 'close',
-											}),
-											new MessageButton({
-												label: 'Go back',
-												style: 'SECONDARY',
-												customId: 'back',
-											}),
-										]
-									})
-									msg.edit({embeds: [embed], components: [row]})
-									reply.delete().catch(_ => _)
-								}
-							})
-							col.on("end", async (c, r) => {
-								if (client.inDev) {
-									interaction.guild?.commands.cache
-									.find(c => c.name === "dynamicvoice")
-									?.permissions.remove({
-										users: [interaction.user.id]
-									})
-									.catch(_ => _);
-								} else {
-									client.application?.commands.cache
-									.find(c => c.name === "dynamicvoice")
-									?.permissions.remove({
-										users: [interaction.user.id],
-										guild: interaction.guild?.id ?? "",
-									})
-									.catch(_ => _);
-								}
-							})
+								col.on("end", async (_, __) => {
+									c.delete()
+								})
+							}).catch(_ => _)
 						} else if (i.customId === 'resetvoice') {
 							config.dynamicVoiceBase = undefined
 							const value = config.dynamicVoiceBase
