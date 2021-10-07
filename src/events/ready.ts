@@ -1,4 +1,5 @@
 import {PresenceData, TextChannel} from 'discord.js';
+import { ContextMenu } from '../utils/class/ContextMenu';
 import {Command, Event, Bot, Logger} from '../utils/class/index';
 import {presence} from '../utils/JSON/config.json';
 
@@ -20,10 +21,16 @@ export default new Event('ready', async (client: Bot) => {
 		],
 	});
 
+
+	const commandList: Array<Command|ContextMenu> = client.commands.filter(c => c instanceof Command).map(c => (c as Command))
+	commandList.push(...client.contextMenu.map(c => c))
+
+	console.log(client.contextMenu.map(c => c.data.name))
+	console.log(commandList.map(c => c.data.name))
 	if (client.inDev) {
 		for (const guild of guilds) {
-			await guild?.commands.set(client.commands.filter(c => c instanceof Command).map(c => (c as Command).data)).catch(_ => _);
-			for (const cmd of client.commands.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
+			await guild?.commands.set(commandList.map(c => c.data)).catch(_ => _);
+			for (const cmd of commandList.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
 				guild?.commands.cache
 					.find(c => c.name === cmd)
 					?.permissions.add({
@@ -39,8 +46,8 @@ export default new Event('ready', async (client: Bot) => {
 			}
 		}
 	} else {
-		await client.application?.commands.set(client.commands.filter(c => c instanceof Command).map(c => (c as Command).data));
-		for (const cmd of client.commands.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
+		await client.application?.commands.set(commandList.map(c => c.data));
+		for (const cmd of commandList.filter(c => c instanceof Command && (c.permission?.user?.dev ?? false)).map(m => (m as Command).data.name)) {
 			for (const guild of client.guilds.cache.map(g => g.id)) {
 				client.application?.commands.cache
 					.find(c => c.name === cmd)

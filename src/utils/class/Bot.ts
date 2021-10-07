@@ -5,6 +5,7 @@ import {SubCommand} from './Command';
 import {BotOptions} from '../types/Bot';
 import {createConnection} from 'mysql';
 import {Logger} from './Logger';
+import { ContextMenu } from './ContextMenu';
 
 export function propertyInEnum<V extends {[k: string]: any}>(enumObject: V, property: string): keyof V | undefined {
 	return enumObject[property] ?? undefined;
@@ -33,8 +34,6 @@ export class Bot extends Client {
 		this.launch();
 	}
 
-	commands = new Collection<string, Command | SubCommand>();
-
 	private database = createConnection({
 		database: process.env.DB_DB,
 		host: process.env.DB_HOST,
@@ -42,14 +41,17 @@ export class Bot extends Client {
 		password: process.env.DB_PASS,
 	});
 
-	dbOnline = false;
+	dbOnline = true;
 
-	async launchDB() {
+	private async launchDB() {
 		try {
 			Logger.info('DB CONNECTION');
-			this.database.connect();
-			this.dbOnline = true;
+			this.database.connect((err) => {
+				this.dbOnline = false
+				Logger.error(err, 'DB CONNECTION');
+			});
 		} catch (error) {
+			this.dbOnline = false
 			Logger.error(error, 'DB CONNECTION');
 		}
 	}
@@ -58,10 +60,14 @@ export class Bot extends Client {
 		return this.database.query(query, fonction);
 	};
 
-	async launchHandler() {
+	commands = new Collection<string, Command | SubCommand>();
+
+	contextMenu = new Collection<string, ContextMenu>();
+
+	private async launchHandler() {
 		const pathEvent: string = 'events/';
 		readdirSync(`./out/${pathEvent}`).forEach(event => {
-			if (!event.endsWith('.js')) return;
+			if (!event.endsWith('.js') || event.startsWith('_')) return;
 			delete require.cache[require.resolve('../../' + pathEvent + event)];
 
 			const eventClass: Event = require('../../' + pathEvent + event).default;
@@ -70,7 +76,7 @@ export class Bot extends Client {
 
 		const pathCommands: string = 'commands';
 		readdirSync(`./out/${pathCommands}/`).forEach(dirs => {
-			const commands = readdirSync(`./out/${pathCommands}/${dirs}/`).filter(files => files.endsWith('.js'));
+			const commands = readdirSync(`./out/${pathCommands}/${dirs}/`).filter(files => files.endsWith('.js') && !files.startsWith("_"));
 
 			for (const file of commands) {
 				const props: any = require(`../../${pathCommands}/${dirs}/${file}`).default;
@@ -97,6 +103,13 @@ export class Bot extends Client {
 				const options: ApplicationCommandOptionData[] = props.data.options ?? [];
 				for (const o of options) manageSubCommand(props.data.name, o);
 			}
+		});
+
+		const pathContext: string = 'context';
+		readdirSync(`./out/${pathContext}/`).filter(files => files.endsWith('.js') && !files.startsWith("_")).forEach(file => {
+			
+			const props: any = require(`../../${pathContext}/${file}`).default;
+			this.contextMenu.set(props.data.name, props);
 		});
 	}
 
