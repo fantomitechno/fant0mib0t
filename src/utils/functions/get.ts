@@ -1,4 +1,4 @@
-import {Guild, Message, Role, TextChannel} from 'discord.js';
+import {Guild, Message, Role, TextChannel, WebhookClient} from 'discord.js';
 const {findBestMatch} = require('string-similarity');
 
 export const getRole = (message: Message, string: string) => {
@@ -115,20 +115,25 @@ export const getChannel = (message: Message, string: string) => {
 	return null;
 };
 
-export const getWebhook = async (guild: Guild) => {
-	const w = await guild.fetchWebhooks();
-	let webhook = w.map(w => w).find(w => w.name === 'fant0mib0t-webhook');
+
+let cachedHook: any = {}
+
+export const getWebhook = async (guild: Guild): Promise<WebhookClient|undefined> => {
+	let webhook = cachedHook[guild.id]
 	if (!webhook) {
+		const w = await guild.fetchWebhooks()
+		w.map(w => w).find(w => w.name === guild.client.user?.username + '-webhook')?.delete();
 		const channel = guild.channels.cache.map(c => c).filter(c => c.isText())[0] as TextChannel | null;
 		await channel
-			?.createWebhook('fant0mib0t-webhook', {
+			?.createWebhook(guild.client.user?.username + '-webhook', {
 				avatar: guild.client?.user?.avatarURL() ?? undefined,
 				reason: "Don't touch this !",
 			})
 			.then(w => {
-				return w;
+				cachedHook[guild.id] = new WebhookClient({token: w.token ?? "", id: w.id})
+				return cachedHook[guild.id]
 			});
 	} else {
-		return webhook;
+		return cachedHook[guild.id]
 	}
 };
