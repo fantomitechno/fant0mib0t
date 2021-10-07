@@ -25,8 +25,6 @@ export default new Event('ready', async (client: Bot) => {
 	const commandList: Array<Command|ContextMenu> = client.commands.filter(c => c instanceof Command).map(c => (c as Command))
 	commandList.push(...client.contextMenu.map(c => c))
 
-	console.log(client.contextMenu.map(c => c.data.name))
-	console.log(commandList.map(c => c.data.name))
 	if (client.inDev) {
 		for (const guild of guilds) {
 			await guild?.commands.set(commandList.map(c => c.data)).catch(_ => _);
