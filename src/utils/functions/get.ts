@@ -117,7 +117,7 @@ export const getChannel = (message: Message, string: string) => {
 
 
 let cachedHook: any = {}
-
+/*
 export const getWebhook = async (guild: Guild): Promise<WebhookClient|undefined> => {
 	let webhook = cachedHook[guild.id]
 	if (!webhook) {
@@ -135,5 +135,24 @@ export const getWebhook = async (guild: Guild): Promise<WebhookClient|undefined>
 			});
 	} else {
 		return cachedHook[guild.id]
+	}
+};*/
+
+export const getWebhook = async (guild: Guild) => {
+	const w = await guild.fetchWebhooks();
+	let webhook = w.map(w => w).find(w => w.name === guild.client.user?.username + '-webhook');
+	if (!webhook) {
+		
+		const channel = guild.channels.cache.map(c => c).filter(c => c.isText())[0] as TextChannel | null;
+		await channel
+			?.createWebhook(guild.client.user?.username + '-webhook', {
+				avatar: guild.client?.user?.avatarURL() ?? undefined,
+				reason: "Don't touch this !",
+			})
+			.then(w => {
+				return w;
+			});
+	} else {
+		return webhook;
 	}
 };
