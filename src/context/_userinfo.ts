@@ -1,8 +1,9 @@
-import {Activity, CommandInteraction, GuildMember, MessageAttachment, MessageEmbed, Presence} from 'discord.js';
-import {Command, Bot} from '../../utils/class';
-import {formatTime, stringifyTime} from "../../utils/functions/Time"
-import { drawEmoji } from '../../utils/functions/canvas';
+import {Activity, ActivityFlags, CommandInteraction, ContextMenuInteraction, GuildMember, MessageAttachment, MessageEmbed, Presence} from 'discord.js';
+import {Command, Bot} from '../utils/class';
+import {formatTime, stringifyTime} from "../utils/functions/Time"
+import { drawEmoji } from '../utils/functions/canvas';
 import {createCanvas, loadImage} from "canvas"
+import { ContextMenu } from '../utils/class/ContextMenu';
 
 async function getMostColorImage(link: string) {
         const img = await loadImage(link), 
@@ -31,21 +32,13 @@ const statusIcon = {
     "online": "https://cdn.discordapp.com/emojis/702869993041428543.png?v=1"
 };
 
-export default new Command(
+export default new ContextMenu(
 	{
-		name: 'userinfo',
-		description: 'Get informations on a user',
-        options: [
-            {
-                type: "USER",
-                description : `The user to get information of`,
-                required: false,
-                name: "user"
-            }
-        ]
+		name: 'Get information',
+        type: "USER"
 	},
-	async (client: Bot, interaction: CommandInteraction) => {
-		let member = (interaction.options.getMember("user", false) ?? interaction.guild?.members.cache.get(interaction.user.id)) as GuildMember
+	async (client: Bot, interaction: ContextMenuInteraction) => {
+		let member = (interaction.guild?.members.cache.get(interaction.targetId)) as GuildMember
         const position = (interaction.guild?.members.cache.sort((a, b) => (a.joinedTimestamp ?? 0) - (b.joinedTimestamp ?? 0)).map(r => r.id) as string[])
         const user = member.user
         const link = user.displayAvatarURL({ format: 'png' })
@@ -157,7 +150,27 @@ export default new Command(
             if (activity?.timestamps?.start) await drawEmoji(ctx, `Since ${stringifyTime(Date.now() - activity.timestamps.start.getTime(), {suppressTag: true, format: "H-M-S", valueNull: true, separator: ":", lang: "en", long: false})}`, 178, 920, 30, 30)
             
             if (activity.name && !customeStatus && user.bot) {
-                let activity_to_push = new Activity(new Presence(client))
+                let activity_to_push: Activity = {
+                    applicationId: null,
+                    assets: null,
+                    buttons: [],
+                    createdAt: new Date,
+                    createdTimestamp: 0,
+                    details: null,
+                    emoji: null,
+                    id: "",
+                    name: "",
+                    party: null,
+                    platform: null,
+                    sessionId: null,
+                    state: null,
+                    syncId: null,
+                    timestamps: null,
+                    url: null,
+                    equals: (activity: Activity) => true,
+                    flags: new ActivityFlags(),
+                    type: 'PLAYING'
+                }
                 activity_to_push.type = "CUSTOM"
                 activity_to_push.state = activity.name
                 member.presence.activities.push(activity_to_push)
@@ -182,7 +195,27 @@ export default new Command(
             if (activity?.state) await drawEmoji(ctx, `Play at : ${activity.state}`, 178, 860, 30, 30)
 
             if (activity?.name && !customeStatus && user.bot) {
-                let activity_to_push = new Activity(new Presence(client))
+                let activity_to_push: Activity = {
+                    applicationId: null,
+                    assets: null,
+                    buttons: [],
+                    createdAt: new Date,
+                    createdTimestamp: 0,
+                    details: null,
+                    emoji: null,
+                    id: "",
+                    name: "",
+                    party: null,
+                    platform: null,
+                    sessionId: null,
+                    state: null,
+                    syncId: null,
+                    timestamps: null,
+                    url: null,
+                    equals: (activity: Activity) => true,
+                    flags: new ActivityFlags(),
+                    type: 'PLAYING'
+                }
                 activity_to_push.type = "CUSTOM"
                 activity_to_push.state = "Streaming "+activity.name
                 member.presence.activities.push(activity_to_push)
@@ -208,7 +241,27 @@ export default new Command(
             if (activity?.assets?.largeText) await drawEmoji(ctx, `on ${activity.assets?.largeText}`, 178, 890, 30, 30)
 
             if (activity?.name && !customeStatus && user.bot) {
-                let activity_to_push = new Activity(new Presence(client))
+                let activity_to_push: Activity = {
+                    applicationId: null,
+                    assets: null,
+                    buttons: [],
+                    createdAt: new Date,
+                    createdTimestamp: 0,
+                    details: null,
+                    emoji: null,
+                    id: "",
+                    name: "",
+                    party: null,
+                    platform: null,
+                    sessionId: null,
+                    state: null,
+                    syncId: null,
+                    timestamps: null,
+                    url: null,
+                    equals: (activity: Activity) => true,
+                    flags: new ActivityFlags(),
+                    type: 'PLAYING'
+                }
                 activity_to_push.type = "CUSTOM"
                 activity_to_push.state = "Listening "+activity.name
                 member.presence.activities.push(activity_to_push)
