@@ -1,5 +1,4 @@
-import {Bot} from './utils/class';
-import {Logger} from './utils/class';
+import {Logger, Bot} from './utils/class';
 
 require('dotenv').config();
 

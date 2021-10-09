@@ -1,6 +1,5 @@
 import {PresenceData, TextChannel} from 'discord.js';
-import { ContextMenu } from '../utils/class/ContextMenu';
-import {Command, Event, Bot, Logger} from '../utils/class/index';
+import {Command, Event, Bot, Logger, ContextMenu} from '../utils/class';
 import {presence} from '../utils/JSON/config.json';
 
 export default new Event('ready', async (client: Bot) => {

@@ -1,7 +1,6 @@
 import { ContextMenuInteraction } from "discord.js";
-import { Bot } from "../utils/class";
-import { ContextMenu } from "../utils/class/ContextMenu";
-import { linkPreview } from "../utils/plugins/linkPreview";
+import { Bot, ContextMenu } from "../utils/class";
+import { linkPreview } from "../utils/plugins";
 
 export default new ContextMenu(
     {

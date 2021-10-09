@@ -1,5 +1,5 @@
 import {ApplicationCommandData, ContextMenuInteraction, PermissionResolvable} from 'discord.js';
-import {Bot} from './Bot';
+import {Bot} from './index';
 
 type DefaultCommandRunFunction = (client: Bot, interaction: ContextMenuInteraction) => Promise<void> | void;
 

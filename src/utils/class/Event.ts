@@ -1,4 +1,4 @@
-import {Bot} from './Bot';
+import {Bot} from './index';
 
 type RunFunction = (...options: any[]) => Promise<any> | void;
 

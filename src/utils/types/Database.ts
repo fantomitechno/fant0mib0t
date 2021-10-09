@@ -16,3 +16,10 @@ export const defaultConfig: Config = {
 	antiduplicated: false,
 	linkpreview: false,
 };
+
+export interface Case {
+	id: number,
+	reason: string,
+	punishment: string,
+	moderatorID: string
+}

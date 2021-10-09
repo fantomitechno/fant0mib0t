@@ -1,4 +1,4 @@
-import {CommandInteraction, GuildChannel, InteractionCollector, Message, MessageActionRow, MessageButton, MessageEmbed, MessageEmbedOptions, MessageSelectMenu} from 'discord.js';
+import {CommandInteraction, GuildChannel, InteractionCollector, Message, MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu} from 'discord.js';
 import {MysqlError} from 'mysql';
 import {Command, Bot} from '../../utils/class';
 import {Config, defaultConfig} from '../../utils/types';
@@ -137,7 +137,7 @@ To change it or to return to the base menu use the buttons bellow`;
 					case 'linkpreview':
 						description = `<:Nothing:893175030534508545> Informations:
 The LinkPreview feature will send, when someone send a discord message link, the recreation of the message
-<:Nothing:893175030534508545> Curent state: ${bool ? '<:Check:893175073756839996>' : '<:Notcheck:893175054991511592>'}
+<:Nothing:893175030534508545> Curent state: ${bool ? 'Automatic' : 'Only ContextMenu'}
 
 To change it or to return to the base menu use the buttons bellow`;
 						return new MessageEmbed({

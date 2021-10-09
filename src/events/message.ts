@@ -1,6 +1,6 @@
 import {Message} from 'discord.js';
-import {Event, Bot} from '../utils/class/index';
-import { linkPreview } from '../utils/plugins/linkPreview';
+import {Event, Bot} from '../utils/class';
+import { linkPreview } from '../utils/plugins';
 
 export default new Event('messageCreate', async (client: Bot, message: Message) => {
 

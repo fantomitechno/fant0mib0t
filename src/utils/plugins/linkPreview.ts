@@ -1,5 +1,5 @@
 import { ContextMenuInteraction, GuildTextChannelResolvable, Message, MessageActionRow, MessageButton, MessageEmbed, NewsChannel, TextChannel, User, WebhookClient } from "discord.js";
-import { getWebhook } from "../functions/get";
+import { getWebhook } from "../functions";
 
 export const linkPreview = async (message: Message, interaction?: ContextMenuInteraction) => {
         let messageLink = message.content.replace(/discord.com/g,"discordapp.com").split("discordapp.com/channels/")[1]

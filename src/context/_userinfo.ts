@@ -1,9 +1,7 @@
-import {Activity, ActivityFlags, CommandInteraction, ContextMenuInteraction, GuildMember, MessageAttachment, MessageEmbed, Presence} from 'discord.js';
-import {Command, Bot} from '../utils/class';
-import {formatTime, stringifyTime} from "../utils/functions/Time"
-import { drawEmoji } from '../utils/functions/canvas';
+import {Activity, ActivityFlags, ContextMenuInteraction, GuildMember, MessageAttachment, MessageEmbed} from 'discord.js';
+import {ContextMenu, Bot} from '../utils/class';
+import { drawEmoji, formatTime, stringifyTime } from '../utils/functions';
 import {createCanvas, loadImage} from "canvas"
-import { ContextMenu } from '../utils/class/ContextMenu';
 
 async function getMostColorImage(link: string) {
         const img = await loadImage(link), 

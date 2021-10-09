@@ -1,5 +1,4 @@
-import {Guild} from 'discord.js';
-import {MessageEmbed} from 'discord.js';
+import {Guild, MessageEmbed} from 'discord.js';
 
 export const sendToModLogs = (guild: Guild | null, content: string, type: string) => {
 	let logEmbed = new MessageEmbed({

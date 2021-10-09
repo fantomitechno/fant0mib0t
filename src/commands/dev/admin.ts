@@ -1,4 +1,4 @@
-import {CommandInteraction, GuildChannel, InteractionCollector, Message, MessageActionRow, MessageButton, MessageEmbed, MessageEmbedOptions, MessageSelectMenu} from 'discord.js';
+import {CommandInteraction, Message, MessageActionRow, MessageButton, MessageEmbed} from 'discord.js';
 import {Command, Bot} from '../../utils/class';
 import fetch from 'node-fetch';
 

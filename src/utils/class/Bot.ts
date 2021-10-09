@@ -1,11 +1,8 @@
 import {ApplicationCommandOptionData, Client, ClientOptions, Collection} from 'discord.js';
 import {readdirSync} from 'fs';
-import {Command, Event} from './index';
-import {SubCommand} from './Command';
-import {BotOptions} from '../types/Bot';
+import {Command, Event, SubCommand, ContextMenu, Logger} from './index';
+import {BotOptions} from '../types/';
 import {createConnection} from 'mysql';
-import {Logger} from './Logger';
-import { ContextMenu } from './ContextMenu';
 
 export function propertyInEnum<V extends {[k: string]: any}>(enumObject: V, property: string): keyof V | undefined {
 	return enumObject[property] ?? undefined;
@@ -35,10 +32,10 @@ export class Bot extends Client {
 	}
 
 	private database = createConnection({
-		database: process.env.DB_DB,
-		host: process.env.DB_HOST,
-		user: process.env.DB_USER,
-		password: process.env.DB_PASS,
+		database: process.env.MYSQL_DB,
+		host: process.env.MYSQL_HOST,
+		user: process.env.MYSQL_USER,
+		password: process.env.MYSQL_PASS,
 	});
 
 	dbOnline = true;

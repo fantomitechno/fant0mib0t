@@ -1,6 +1,6 @@
 import {CommandInteraction, MessageEmbed} from 'discord.js';
 import {Command, Bot} from '../../utils/class';
-import { visuelTime } from "../../utils/functions/string"
+import { visuelTime } from "../../utils/functions"
 
 export default new Command(
 	{

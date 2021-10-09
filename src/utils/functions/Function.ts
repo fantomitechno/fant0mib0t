@@ -1,5 +1,5 @@
-import { languageBuild } from "../structure";
-import { error } from "../errors/err";
+import { languageBuild } from "../types";
+import { error } from "../errors";
 
 const lang = languageBuild();
 

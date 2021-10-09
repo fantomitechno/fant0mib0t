@@ -1,5 +1,5 @@
-import { languageBuild, objectConstructor } from "../structure";
-import { error } from "../errors/err";
+import { languageBuild, objectConstructor } from "../types";
+import { error } from "../errors";
 
 const lang = languageBuild();
 const format = ["Y","MO","W","D","H","M","S","MS"];

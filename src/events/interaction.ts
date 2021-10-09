@@ -1,5 +1,5 @@
 import {Interaction} from 'discord.js';
-import {Event, Bot, Logger} from '../utils/class/index';
+import {Event, Bot, Logger} from '../utils/class';
 
 export default new Event('interactionCreate', async (client: Bot, interaction: Interaction) => {
 	if (interaction.isCommand()) {

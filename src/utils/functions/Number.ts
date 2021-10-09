@@ -1,5 +1,5 @@
-import {languageBuild, objectConstructor} from "../structure";
-import {error} from "../errors/err";
+import {languageBuild} from "../types";
+import {error} from "../errors";
 
 const lang = languageBuild();
 const numbers = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];

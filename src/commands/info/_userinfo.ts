@@ -1,7 +1,6 @@
-import {Activity, ActivityFlags, CommandInteraction, GuildMember, MessageAttachment, MessageEmbed, Presence} from 'discord.js';
+import {Activity, ActivityFlags, CommandInteraction, GuildMember, MessageAttachment, MessageEmbed} from 'discord.js';
 import {Command, Bot} from '../../utils/class';
-import {formatTime, stringifyTime} from "../../utils/functions/Time"
-import { drawEmoji } from '../../utils/functions/canvas';
+import {formatTime, stringifyTime, drawEmoji } from "../../utils/functions"
 import {createCanvas, loadImage} from "canvas"
 
 async function getMostColorImage(link: string) {
