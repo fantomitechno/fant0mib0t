@@ -1,17 +1,18 @@
 {
-    "times": [
-        ["year","years", "y"],
-        ["month","months", "mo"],
-        ["week","weeks", "w"],
-        ["day","days", "d"],
-        ["hour","hours", "h"],
-        ["minute","minutes", "m"],
-        ["second","seconds", "s"],
-        ["millisecond","milliseconds", "ms"]
-    ],"format" : {
-        "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        "day": ["st", "nd", "rd"],
-        "th": "th"
-    }
+  "times": [
+    ["year", "years", "y"],
+    ["month", "months", "mo"],
+    ["week", "weeks", "w"],
+    ["day", "days", "d"],
+    ["hour", "hours", "h"],
+    ["minute", "minutes", "m"],
+    ["second", "seconds", "s"],
+    ["millisecond", "milliseconds", "ms"]
+  ],
+  "format": {
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "day": ["st", "nd", "rd"],
+    "th": "th"
+  }
 }

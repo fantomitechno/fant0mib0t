@@ -1,10 +1,10 @@
 {
-    "VALUE_NOT_NUMBER": "[{type}] The value is not a Number.",
-    "VALUE_NOT_STRING": "[{type}] The value is not a String.",
-    "VALUE_NOT_ARRAY": "[{type}] The value is not a Array.",
-    "VALUE_NOT_OBJECT": "[{type}] The value is not a Object.",
-    "VALUE_NOT_BOOLEAN": "[{type}] The value is not a Boolean.",
-    "VALUE_NOT_FUNCTION": "[{type}] The value is not a Function.",
-    "VALUE_IS_NOT_DEFINED": "[{type}] The value is not defined.",
-    "TIMES_NULL": "[{type}] The format is not good."
-} 
+  "VALUE_NOT_NUMBER": "[{type}] The value is not a Number.",
+  "VALUE_NOT_STRING": "[{type}] The value is not a String.",
+  "VALUE_NOT_ARRAY": "[{type}] The value is not a Array.",
+  "VALUE_NOT_OBJECT": "[{type}] The value is not a Object.",
+  "VALUE_NOT_BOOLEAN": "[{type}] The value is not a Boolean.",
+  "VALUE_NOT_FUNCTION": "[{type}] The value is not a Function.",
+  "VALUE_IS_NOT_DEFINED": "[{type}] The value is not defined.",
+  "TIMES_NULL": "[{type}] The format is not good."
+}

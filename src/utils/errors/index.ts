@@ -1,1 +1,1 @@
-export * from "./Functions-tools"
+export * from './Functions-tools';

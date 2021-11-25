@@ -1,15 +1,15 @@
-import { languageBuild } from "../types";
-import { error } from "../errors";
+import {languageBuild} from '../types';
+import {error} from '../errors';
 
 const lang = languageBuild();
 
 export const replaceText = (string: string, replace: Object = {}) => {
-    if (!string || !replace) return error(lang.errors["VALUE_IS_NOT_DEFINED"], {type: "replaceText"}, "replaceText('Hello {user}', {user: 'NewGlace'})");
+  if (!string || !replace) return error(lang.errors['VALUE_IS_NOT_DEFINED'], {type: 'replaceText'}, "replaceText('Hello {user}', {user: 'NewGlace'})");
 
-    for (const [key, value] of Object.entries(replace)) {
-        const regexp = new RegExp(`{${key}}`, "g");
-        string = string.replace(regexp, value);
-    };
+  for (const [key, value] of Object.entries(replace)) {
+    const regexp = new RegExp(`{${key}}`, 'g');
+    string = string.replace(regexp, value);
+  }
 
-    return string;
+  return string;
 };

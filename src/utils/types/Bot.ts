@@ -1,4 +1,4 @@
 export interface BotOptions {
-	inDev: boolean;
-	devs: string[];
+  inDev: boolean;
+  devs: string[];
 }
